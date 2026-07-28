@@ -18,8 +18,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
   }, [user, isAuthenticated, isLoading, router]);
 
-  if (isLoading || !isAuthenticated || user?.role !== "ADMIN") {
-    return null; // Don't render anything while redirecting
+  // If we are still checking auth status and haven't found a session yet, wait.
+  if (isLoading && !isAuthenticated) {
+    return null;
+  }
+  
+  // If we finished loading and are NOT authenticated, or wrong role, wait for redirect.
+  if (!isAuthenticated || user?.role !== "ADMIN") {
+    return null;
   }
 
   return <>{children}</>;
