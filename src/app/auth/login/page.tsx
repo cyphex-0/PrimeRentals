@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,7 @@ export default function LoginPage() {
   const router = useRouter();
   const setAuth = useAuthStore((state) => state.setAuth);
   
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginInput>({
+  const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
   });
 
@@ -34,8 +34,9 @@ export default function LoginPage() {
         else if (role === "LANDLORD") router.push("/dashboard/landlord");
         else router.push("/dashboard/admin");
       }
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to login. Please try again.");
+    } catch (error: any) {
+      const message = error?.message || "Failed to login. Please check your credentials.";
+      setError("root", { message });
     }
   };
 
@@ -49,6 +50,13 @@ export default function LoginPage() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        {errors.root && (
+          <div className="flex items-center gap-2 p-3 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md">
+            <AlertCircle className="h-4 w-4 shrink-0" />
+            <p>{errors.root.message}</p>
+          </div>
+        )}
+
         <div className="space-y-2">
           <label className="text-sm font-medium leading-none">Email</label>
           <Input 
@@ -81,7 +89,7 @@ export default function LoginPage() {
 
       <div className="text-center text-sm">
         Don&apos;t have an account?{" "}
-        <Link href="/register" className="font-semibold text-primary hover:underline">
+        <Link href="/auth/register" className="font-semibold text-primary hover:underline">
           Sign up
         </Link>
       </div>

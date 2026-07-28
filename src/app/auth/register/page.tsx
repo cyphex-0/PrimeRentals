@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, User as UserIcon, Building } from "lucide-react";
+import { Loader2, User as UserIcon, Building, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,7 @@ export default function RegisterPage() {
   const router = useRouter();
   const setAuth = useAuthStore((state) => state.setAuth);
   
-  const { register, handleSubmit, control, formState: { errors, isSubmitting } } = useForm<RegisterInput>({
+  const { register, handleSubmit, control, setError, formState: { errors, isSubmitting } } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       role: "TENANT",
@@ -38,8 +38,9 @@ export default function RegisterPage() {
         else if (role === "LANDLORD") router.push("/dashboard/landlord");
         else router.push("/dashboard/admin");
       }
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to register. Please try again.");
+    } catch (error: any) {
+      const message = error?.message || "Failed to register. Please try again.";
+      setError("root", { message });
     }
   };
 
@@ -53,6 +54,13 @@ export default function RegisterPage() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        {errors.root && (
+          <div className="flex items-center gap-2 p-3 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md">
+            <AlertCircle className="h-4 w-4 shrink-0" />
+            <p>{errors.root.message}</p>
+          </div>
+        )}
+
         <div className="space-y-3">
           <label className="text-sm font-medium leading-none">I am a...</label>
           <Controller
@@ -132,7 +140,7 @@ export default function RegisterPage() {
 
       <div className="text-center text-sm">
         Already have an account?{" "}
-        <Link href="/login" className="font-semibold text-primary hover:underline">
+        <Link href="/auth/login" className="font-semibold text-primary hover:underline">
           Sign in
         </Link>
       </div>

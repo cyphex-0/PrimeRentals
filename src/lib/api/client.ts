@@ -42,9 +42,6 @@ async function fetchWithRetry(url: string, options: RequestInit = {}): Promise<R
       }
     } catch (error) {
       useAuthStore.getState().clearAuth();
-      if (typeof window !== "undefined") {
-        window.location.href = "/login";
-      }
     }
   }
 
