@@ -25,7 +25,7 @@ export function CtaSection() {
               Join our community today. Whether you&apos;re looking for a cozy studio or listing your luxury villa, RentNest connects you instantly.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link href="/register">
+              <Link href="/auth/register">
                 <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-base shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-shadow">
                   Get Started for Free
                 </Button>
