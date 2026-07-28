@@ -1,0 +1,79 @@
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
+
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #F0FDFA;
+    --foreground: #134E4A;
+    
+    --primary: #0F766E;
+    --primary-foreground: #FFFFFF;
+    
+    --secondary: #14B8A6;
+    --secondary-foreground: #FFFFFF;
+    
+    --accent: #0369A1;
+    --accent-foreground: #FFFFFF;
+    
+    --muted: #E8F0F3;
+    --muted-foreground: #134E4A;
+    
+    --border: #99F6E4;
+    
+    --destructive: #DC2626;
+    --destructive-foreground: #FFFFFF;
+    
+    --ring: #0F766E;
+
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-2xl: 48px;
+    --space-3xl: 64px;
+  }
+
+  .dark {
+    /* Generated OLED Dark Mode override if applied */
+    --background: #020617; /* Slate 950 */
+    --foreground: #F8FAFC; /* Slate 50 */
+    
+    --primary: #14B8A6; /* Lighter teal for dark mode */
+    --primary-foreground: #020617;
+    
+    --secondary: #2DD4BF;
+    --secondary-foreground: #020617;
+    
+    --accent: #38BDF8; /* Lighter blue */
+    --accent-foreground: #020617;
+    
+    --muted: #0F172A; /* Slate 900 */
+    --muted-foreground: #94A3B8; /* Slate 400 */
+    
+    --border: #1E293B; /* Slate 800 */
+    
+    --destructive: #EF4444;
+    --destructive-foreground: #020617;
+    
+    --ring: #14B8A6;
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl;
+  }
+}
