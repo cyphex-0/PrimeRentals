@@ -15,7 +15,8 @@ import {
   Users,
   Layers,
   List,
-  X
+  X,
+  LogOut
 } from "lucide-react"
 
 type Role = "TENANT" | "LANDLORD" | "ADMIN";
@@ -88,7 +89,12 @@ export function Sidebar({
         </div>
         <nav className="flex flex-col gap-1 px-3">
           {items.map((item) => {
-            const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+            // For the root dashboard link, it should only be active on an exact match
+            const isDashboardLink = item.href.endsWith("/admin") || item.href.endsWith("/tenant") || item.href.endsWith("/landlord");
+            const isActive = isDashboardLink 
+              ? pathname === item.href 
+              : (pathname === item.href || pathname.startsWith(item.href + '/'));
+              
             return (
               <Link 
                 key={item.href} 
@@ -114,8 +120,8 @@ export function Sidebar({
           href="/logout"
           className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-destructive transition-colors hover:bg-red-50 dark:hover:bg-red-950/50"
         >
-          <Settings className="h-4 w-4" />
-          Settings
+          <LogOut className="h-4 w-4" />
+          Log Out
         </Link>
       </div>
     </aside>
