@@ -46,7 +46,7 @@ export function DropdownMenuContent({ children, className, align = "right" }: { 
   return (
     <div 
       className={cn(
-        "absolute z-50 mt-2 w-56 rounded-xl border bg-card p-1 shadow-lg dark:bg-slate-900 animate-in fade-in slide-in-from-top-2 duration-200",
+        "absolute z-50 mt-2 w-56 rounded-xl border bg-white p-1 shadow-xl dark:bg-slate-900 animate-in fade-in slide-in-from-top-2 duration-200",
         align === "right" ? "right-0" : "left-0",
         className
       )}
