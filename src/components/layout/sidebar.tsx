@@ -2,7 +2,8 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
+import { useAuthStore } from "@/lib/stores/auth-store"
 import { cn } from "@/lib/utils"
 import { 
   LayoutDashboard, 
@@ -54,7 +55,14 @@ export function Sidebar({
   setIsMobileOpen?: (open: boolean) => void;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { clearAuth } = useAuthStore();
   const items = navItems[role];
+
+  const handleLogout = () => {
+    clearAuth();
+    router.push("/auth/login");
+  };
 
   return (
     <>
@@ -116,13 +124,13 @@ export function Sidebar({
       </div>
       
       <div className="p-4 border-t shrink-0">
-        <Link 
-          href="/logout"
-          className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-destructive transition-colors hover:bg-red-50 dark:hover:bg-red-950/50"
+        <button 
+          onClick={handleLogout}
+          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-destructive transition-colors hover:bg-red-50 dark:hover:bg-red-950/50"
         >
           <LogOut className="h-4 w-4" />
           Log Out
-        </Link>
+        </button>
       </div>
     </aside>
     </>

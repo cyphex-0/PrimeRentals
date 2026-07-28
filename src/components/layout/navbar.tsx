@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Menu, X, Home, User, LogOut, LayoutDashboard } from "lucide-react"
 import { Button } from "../ui/button"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "../ui/dropdown-menu"
@@ -10,10 +11,16 @@ import { useAuthStore } from "@/lib/stores/auth-store"
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const { isAuthenticated: isLoggedIn, user } = useAuthStore();
+  const { isAuthenticated: isLoggedIn, user, clearAuth } = useAuthStore();
+  const router = useRouter();
   
   const userRole = user?.role || "TENANT";
   const initials = user?.name ? user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : "U";
+
+  const handleLogout = () => {
+    clearAuth();
+    router.push("/auth/login");
+  };
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-white/70 backdrop-blur-xl dark:bg-slate-950/70">
@@ -45,22 +52,17 @@ export function Navbar() {
               <DropdownMenuTrigger>
                 <Avatar fallback={initials} />
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/profile" className="w-full flex items-center cursor-pointer">
-                    <User className="mr-2 h-4 w-4" /> Profile
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href={`/dashboard/${userRole.toLowerCase()}`} className="w-full flex items-center cursor-pointer">
-                    <LayoutDashboard className="mr-2 h-4 w-4" /> Dashboard
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem destructive asChild>
-                  <Link href="/logout" className="w-full flex items-center cursor-pointer">
-                    <LogOut className="mr-2 h-4 w-4" /> Logout
-                  </Link>
-                </DropdownMenuItem>
+              <DropdownMenuContent align="right" className="w-56">
+                <Link href="/dashboard/profile">
+                  <DropdownMenuItem><User className="mr-2 h-4 w-4" /> Profile</DropdownMenuItem>
+                </Link>
+                <Link href={`/dashboard/${userRole.toLowerCase()}`}>
+                  <DropdownMenuItem><LayoutDashboard className="mr-2 h-4 w-4" /> Dashboard</DropdownMenuItem>
+                </Link>
+                <DropdownMenuSeparator />
+                <button onClick={handleLogout} className="w-full">
+                  <DropdownMenuItem destructive><LogOut className="mr-2 h-4 w-4" /> Logout</DropdownMenuItem>
+                </button>
               </DropdownMenuContent>
             </DropdownMenu>
           )}
@@ -91,7 +93,7 @@ export function Navbar() {
             ) : (
               <div className="flex flex-col gap-2">
                 <Link href={`/dashboard/${userRole.toLowerCase()}`} className="w-full"><Button variant="outline" className="w-full">Dashboard</Button></Link>
-                <Link href="/logout" className="w-full"><Button variant="destructive" className="w-full">Logout</Button></Link>
+                <Button variant="destructive" className="w-full" onClick={handleLogout}>Logout</Button>
               </div>
             )}
           </nav>
