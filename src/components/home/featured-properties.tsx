@@ -1,0 +1,83 @@
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { Bed, Bath, Square, MapPin } from "lucide-react";
+import { Property } from "@/lib/types";
+import { formatPrice } from "@/lib/utils/format";
+import { Badge } from "@/components/ui/badge";
+
+export function FeaturedProperties({ properties }: { properties: Property[] }) {
+  if (!properties.length) return null;
+
+  return (
+    <section className="py-20 bg-background">
+      <div className="container px-4 md:px-6">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+          <div>
+            <h2 className="text-3xl font-bold tracking-tight mb-2">Featured Properties</h2>
+            <p className="text-muted-foreground">Handpicked homes just for you.</p>
+          </div>
+          <Link href="/properties" className="text-primary font-medium hover:underline inline-flex items-center">
+            View All Properties →
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {properties.map((property, i) => (
+            <motion.div
+              key={property.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+            >
+              <Link href={`/properties/${property.id}`} className="group block">
+                <div className="bg-card rounded-2xl border border-border/50 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                    {property.images[0] ? (
+                      <Image
+                        src={property.images[0]}
+                        alt={property.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-muted-foreground">No image</div>
+                    )}
+                    <div className="absolute top-4 left-4">
+                      <Badge variant="secondary" className="bg-background/90 backdrop-blur-sm shadow-sm font-semibold">
+                        {property.category?.name || "Property"}
+                      </Badge>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="font-semibold text-lg line-clamp-1 group-hover:text-primary transition-colors">
+                      {property.title}
+                    </h3>
+                    <div className="flex items-center text-muted-foreground mt-2 text-sm">
+                      <MapPin className="h-4 w-4 mr-1 shrink-0" />
+                      <span className="line-clamp-1">{property.location}</span>
+                    </div>
+                    <div className="flex items-center gap-4 mt-4 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1"><Bed className="h-4 w-4"/> {property.bedrooms}</div>
+                      <div className="flex items-center gap-1"><Bath className="h-4 w-4"/> {property.bathrooms}</div>
+                      <div className="flex items-center gap-1"><Square className="h-4 w-4"/> {property.area} sqft</div>
+                    </div>
+                    <div className="mt-6 border-t pt-4 flex items-center justify-between">
+                      <div className="text-xl font-bold text-foreground">
+                        {formatPrice(property.rent)}<span className="text-sm font-normal text-muted-foreground">/mo</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
