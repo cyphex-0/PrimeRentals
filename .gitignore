@@ -43,4 +43,9 @@ next-env.d.ts
 # User-specific
 /dontADDinGIT
 /.agents
+/design-system
+/scratch
+CLAUDE.md
+AGENTS.md
+prompt.md
 
