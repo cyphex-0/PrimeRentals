@@ -21,7 +21,7 @@ export default function MyRentalsPage() {
   const filteredRentals = rentals.filter((rental) => {
     if (activeTab === "all") return true;
     if (activeTab === "active") return rental.status === "ACTIVE";
-    if (activeTab === "pending") return rental.status === "PENDING";
+    if (activeTab === "pending") return rental.status === "PENDING" || rental.status === "APPROVED";
     if (activeTab === "past") return rental.status === "COMPLETED" || rental.status === "REJECTED";
     return true;
   });
