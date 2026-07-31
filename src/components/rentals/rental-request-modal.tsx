@@ -27,7 +27,16 @@ export function RentalRequestModal({ isOpen, onClose, propertyId }: RentalReques
   });
 
   const onSubmit = (data: CreateRentalRequestInput) => {
-    mutate(data, {
+    const payload = { ...data };
+    
+    // Default to 1 year lease if no move-out date is provided
+    if (!payload.moveOutDate) {
+      const moveIn = new Date(payload.moveInDate);
+      moveIn.setFullYear(moveIn.getFullYear() + 1);
+      payload.moveOutDate = moveIn.toISOString().split("T")[0];
+    }
+
+    mutate(payload, {
       onSuccess: () => {
         reset();
         onClose();
@@ -41,7 +50,7 @@ export function RentalRequestModal({ isOpen, onClose, propertyId }: RentalReques
         <DialogHeader>
           <DialogTitle>Request to Rent</DialogTitle>
           <DialogDescription>
-            Submit your move-in dates and a message to the landlord.
+            Submit your move-in date and a message to the landlord. You can leave the move-out date blank for an open-ended lease.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pt-4">
@@ -49,7 +58,7 @@ export function RentalRequestModal({ isOpen, onClose, propertyId }: RentalReques
           
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium">Move-in Date</label>
+              <label className="text-sm font-medium">Move-in Date <span className="text-destructive">*</span></label>
               <Input 
                 type="date" 
                 {...register("moveInDate")}
@@ -59,7 +68,7 @@ export function RentalRequestModal({ isOpen, onClose, propertyId }: RentalReques
             </div>
             
             <div className="space-y-2">
-              <label className="text-sm font-medium">Move-out Date</label>
+              <label className="text-sm font-medium">Move-out Date <span className="text-muted-foreground font-normal">(Optional)</span></label>
               <Input 
                 type="date" 
                 {...register("moveOutDate")}
