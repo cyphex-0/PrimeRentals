@@ -17,7 +17,8 @@ import {
   Layers,
   List,
   X,
-  LogOut
+  LogOut,
+  Search
 } from "lucide-react"
 
 type Role = "TENANT" | "LANDLORD" | "ADMIN";
@@ -25,6 +26,7 @@ type Role = "TENANT" | "LANDLORD" | "ADMIN";
 const navItems = {
   TENANT: [
     { name: "Dashboard", href: "/dashboard/tenant", icon: LayoutDashboard },
+    { name: "Browse Properties", href: "/properties", icon: Search },
     { name: "My Rentals", href: "/dashboard/tenant/rentals", icon: Home },
     { name: "Payments", href: "/dashboard/tenant/payments", icon: CreditCard },
     { name: "Profile", href: "/dashboard/profile", icon: User },
