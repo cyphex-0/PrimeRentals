@@ -7,7 +7,7 @@ export async function getServerProperties(searchParams: URLSearchParams | string
   const url = query ? `${API_BASE}/properties?${query}` : `${API_BASE}/properties`;
   
   try {
-    const res = await fetch(url, { next: { revalidate: 60 } });
+    const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) return { success: false, statusCode: res.status, message: "Failed to fetch properties", data: null };
     return await res.json();
   } catch (error) {
@@ -17,7 +17,7 @@ export async function getServerProperties(searchParams: URLSearchParams | string
 
 export async function getServerPropertyById(id: string): Promise<ApiResponse<Property>> {
   try {
-    const res = await fetch(`${API_BASE}/properties/${id}`, { next: { revalidate: 60 } });
+    const res = await fetch(`${API_BASE}/properties/${id}`, { cache: "no-store" });
     if (!res.ok) return { success: false, statusCode: res.status, message: "Property not found", data: null };
     return await res.json();
   } catch (error) {
@@ -27,7 +27,7 @@ export async function getServerPropertyById(id: string): Promise<ApiResponse<Pro
 
 export async function getServerCategories(): Promise<ApiResponse<Category[]>> {
   try {
-    const res = await fetch(`${API_BASE}/categories`, { next: { revalidate: 3600 } });
+    const res = await fetch(`${API_BASE}/categories`, { cache: "no-store" });
     if (!res.ok) return { success: false, statusCode: res.status, message: "Failed to fetch categories", data: null };
     return await res.json();
   } catch (error) {

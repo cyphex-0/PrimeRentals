@@ -10,10 +10,12 @@ import { useMe } from "@/hooks/api/use-auth"
 import { User, LogOut } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { useQueryClient } from "@tanstack/react-query"
 
 export function DashboardHeader({ onMenuClick }: { onMenuClick?: () => void }) {
   const { clearAuth } = useAuthStore()
   const { data: userData } = useMe()
+  const queryClient = useQueryClient()
   const user = userData?.data
   const router = useRouter()
   
@@ -23,6 +25,8 @@ export function DashboardHeader({ onMenuClick }: { onMenuClick?: () => void }) {
 
   const handleLogout = () => {
     clearAuth();
+    queryClient.clear();
+    router.refresh();
     router.push("/auth/login");
   };
 

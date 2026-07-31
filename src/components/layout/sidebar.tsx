@@ -3,6 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
+import { useQueryClient } from "@tanstack/react-query"
 import { useAuthStore } from "@/lib/stores/auth-store"
 import { cn } from "@/lib/utils"
 import { 
@@ -59,10 +60,13 @@ export function Sidebar({
   const pathname = usePathname();
   const router = useRouter();
   const { clearAuth } = useAuthStore();
+  const queryClient = useQueryClient();
   const items = navItems[role];
 
   const handleLogout = () => {
     clearAuth();
+    queryClient.clear();
+    router.refresh();
     router.push("/auth/login");
   };
 

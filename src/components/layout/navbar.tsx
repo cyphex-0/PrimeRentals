@@ -9,11 +9,13 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { Avatar } from "../ui/avatar"
 import { useAuthStore } from "@/lib/stores/auth-store"
 import { useMe } from "@/hooks/api/use-auth"
+import { useQueryClient } from "@tanstack/react-query"
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const { isAuthenticated: isLoggedIn, clearAuth } = useAuthStore();
   const { data: userData } = useMe();
+  const queryClient = useQueryClient();
   const user = userData?.data;
   const router = useRouter();
   
@@ -22,6 +24,8 @@ export function Navbar() {
 
   const handleLogout = () => {
     clearAuth();
+    queryClient.clear();
+    router.refresh();
     router.push("/auth/login");
   };
 

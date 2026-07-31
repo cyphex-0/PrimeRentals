@@ -14,9 +14,12 @@ import { loginSchema, LoginInput } from "@/lib/validations/auth";
 import { loginUser } from "@/lib/api";
 import { useAuthStore } from "@/lib/stores/auth-store";
 
+import { useQueryClient } from "@tanstack/react-query";
+
 export default function LoginPage() {
   const router = useRouter();
   const setAuth = useAuthStore((state) => state.setAuth);
+  const queryClient = useQueryClient();
   
   const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
@@ -27,6 +30,8 @@ export default function LoginPage() {
       const res = await loginUser(data);
       if (res.success && res.data) {
         setAuth(res.data.token);
+        queryClient.clear();
+        router.refresh();
         toast.success("Welcome back!");
         
         const role = res.data.user.role;
