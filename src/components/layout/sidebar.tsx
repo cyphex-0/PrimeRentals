@@ -77,7 +77,7 @@ export function Sidebar({
       )}
       
       <aside className={cn(
-        "fixed inset-y-0 left-0 z-50 w-64 flex-col border-r bg-slate-50 dark:bg-slate-900 h-screen transition-transform duration-300 md:static md:flex md:translate-x-0",
+        "fixed inset-y-0 left-0 z-50 w-64 flex-col border-r bg-slate-50 dark:bg-slate-900 h-full transition-transform duration-300 md:static md:flex md:translate-x-0",
         isMobileOpen ? "flex translate-x-0" : "hidden -translate-x-full"
       )}>
         <div className="h-16 flex items-center justify-between px-6 border-b shrink-0">
