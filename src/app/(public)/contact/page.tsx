@@ -11,7 +11,7 @@ export default function ContactPage() {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
               <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Get in Touch</h1>
-              <p className="text-lg text-muted-foreground">We're here to help. Reach out to our team for any inquiries.</p>
+              <p className="text-lg text-muted-foreground">We&apos;re here to help. Reach out to our team for any inquiries.</p>
             </div>
             
             <div className="grid md:grid-cols-5 gap-8 lg:gap-12">

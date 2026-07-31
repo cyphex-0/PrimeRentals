@@ -144,7 +144,7 @@ export default function PaymentPage({ params }: { params: Promise<{ id: string }
           <CreditCard className="h-8 w-8 text-slate-400" />
         </div>
         <h2 className="text-2xl font-bold">Request Not Found</h2>
-        <p className="text-slate-500 max-w-sm">We couldn't find the rental request you're looking for. It may have been removed.</p>
+        <p className="text-slate-500 max-w-sm">We couldn&apos;t find the rental request you&apos;re looking for. It may have been removed.</p>
         <Button size="lg" className="rounded-xl mt-4" onClick={() => router.push("/dashboard/tenant/rentals")}>Return to Rentals</Button>
       </div>
     );
