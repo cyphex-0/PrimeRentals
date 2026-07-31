@@ -65,7 +65,12 @@ async function handleResponse<T>(response: Response): Promise<ApiResponse<T>> {
 }
 
 export async function apiGet<T>(path: string, options?: RequestInit): Promise<ApiResponse<T>> {
-  const response = await fetchWithRetry(`${API_BASE}${path}`, { ...options, method: "GET" });
+  const response = await fetchWithRetry(`${API_BASE}${path}`, { 
+    ...options, 
+    method: "GET",
+    cache: "no-store",
+    next: { revalidate: 0 } 
+  });
   return handleResponse<T>(response);
 }
 
