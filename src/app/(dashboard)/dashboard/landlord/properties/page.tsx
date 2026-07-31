@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { Plus, Edit, Trash2, MapPin, Search } from "lucide-react";
 import { useLandlordProperties, useDeleteProperty } from "@/hooks/api/use-landlord";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatPrice } from "@/lib/utils/format";

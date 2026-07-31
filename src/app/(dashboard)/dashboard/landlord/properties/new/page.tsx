@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Plus, Trash2, ArrowLeft, Image as ImageIcon } from "lucide-react";
 import { useCreateProperty } from "@/hooks/api/use-landlord";
@@ -27,7 +27,7 @@ export default function CreatePropertyPage() {
   
   const categories = categoriesData?.data || [];
 
-  const { register, handleSubmit, control, formState: { errors }, watch, setValue } = useForm<CreatePropertyInput>({
+  const { register, handleSubmit, control, formState: { errors }, watch, setValue, getValues } = useForm<CreatePropertyInput>({
     resolver: zodResolver(createPropertySchema),
     defaultValues: {
       title: "",
@@ -43,23 +43,18 @@ export default function CreatePropertyPage() {
       images: [""],
     }
   });
-
-  const { fields: imageFields, append: appendImage, remove: removeImage } = useFieldArray({
-    control,
-    name: "images" as never, // cast to workaround strict typing for arrays of primitives
-  });
   
   // Hack for react-hook-form string array
   const handleAddImage = () => {
-    const currentImages = watch("images");
+    const currentImages = getValues("images");
     setValue("images", [...currentImages, ""]);
   };
   const handleRemoveImage = (index: number) => {
-    const currentImages = watch("images");
+    const currentImages = getValues("images");
     setValue("images", currentImages.filter((_, i) => i !== index));
   };
   const updateImage = (index: number, value: string) => {
-    const currentImages = [...watch("images")];
+    const currentImages = [...getValues("images")];
     currentImages[index] = value;
     setValue("images", currentImages);
   };
