@@ -12,8 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { formatPrice, formatDate } from "@/lib/utils/format";
 
-// The Checkout Form component
-function CheckoutForm({ clientSecret, amount, backendPaymentId, onCancel }: { clientSecret: string, amount: string, backendPaymentId: string | null, onCancel: () => void }) {
+function CheckoutForm({ clientSecret, amount, onCancel }: { clientSecret: string, amount: string, onCancel: () => void }) {
   const stripe = useStripe();
   const elements = useElements();
   const [error, setError] = useState<string | null>(null);
@@ -29,11 +28,8 @@ function CheckoutForm({ clientSecret, amount, backendPaymentId, onCancel }: { cl
     // Get the base URL for the return
     const baseUrl = window.location.origin;
     
-    // Construct return URL with paymentId if available
-    let returnUrl = `${baseUrl}/payment/success`;
-    if (backendPaymentId) {
-      returnUrl += `?paymentId=${backendPaymentId}`;
-    }
+    // Construct return URL
+    const returnUrl = `${baseUrl}/payment/success`;
 
     const { error: stripeError } = await stripe.confirmPayment({
       elements,
@@ -106,7 +102,6 @@ export default function PaymentPage({ params }: { params: Promise<{ id: string }
   const { mutate: createIntent, isPending: isCreatingIntent } = useCreatePaymentIntent();
   
   const [clientSecret, setClientSecret] = useState<string | null>(null);
-  const [backendPaymentId, setBackendPaymentId] = useState<string | null>(null);
   const [setupError, setSetupError] = useState<string | null>(null);
 
   const rental = data?.data;
@@ -119,10 +114,6 @@ export default function PaymentPage({ params }: { params: Promise<{ id: string }
           onSuccess: (res) => {
             if (res.data?.clientSecret) {
               setClientSecret(res.data.clientSecret);
-              // Save the backend's transactionId so we can pass it to the success page
-              if (res.data.transactionId) {
-                setBackendPaymentId(res.data.transactionId);
-              }
             } else {
               setSetupError("Failed to initialize payment gateway.");
             }
@@ -252,7 +243,6 @@ export default function PaymentPage({ params }: { params: Promise<{ id: string }
                 <CheckoutForm 
                   clientSecret={clientSecret} 
                   amount={amount} 
-                  backendPaymentId={backendPaymentId}
                   onCancel={() => router.push("/dashboard/tenant/rentals")}
                 />
               </Elements>
