@@ -1,12 +1,13 @@
 "use client";
 
 import * as React from "react"
-import { useAuthStore } from "@/lib/stores/auth-store"
+import { useMe } from "@/hooks/api/use-auth"
 import { Sidebar } from "@/components/layout/sidebar"
 import { DashboardHeader } from "@/components/layout/dashboard-header"
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { user } = useAuthStore();
+  const { data: userData } = useMe();
+  const user = userData?.data;
   const role = user?.role || "TENANT";
   const [isMobileOpen, setIsMobileOpen] = React.useState(false);
 

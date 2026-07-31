@@ -3,6 +3,7 @@
 import { useTenantRentals } from "@/hooks/api/use-rentals";
 import { usePaymentHistory } from "@/hooks/api/use-payments";
 import { useAuthStore } from "@/lib/stores/auth-store";
+import { useMe } from "@/hooks/api/use-auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Activity, CreditCard, Clock, CheckCircle } from "lucide-react";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -10,7 +11,8 @@ import { formatPrice, formatDate } from "@/lib/utils/format";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function TenantDashboard() {
-  const { user } = useAuthStore();
+  const { data: userData } = useMe();
+  const user = userData?.data;
   const { data: rentalsData, isLoading: rentalsLoading } = useTenantRentals();
   const { data: paymentsData, isLoading: paymentsLoading } = usePaymentHistory();
 

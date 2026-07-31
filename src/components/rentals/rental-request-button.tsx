@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useAuthStore } from "@/lib/stores/auth-store";
+import { useMe } from "@/hooks/api/use-auth";
 import { Button } from "@/components/ui/button";
 import { RentalRequestModal } from "./rental-request-modal";
 
@@ -11,7 +12,9 @@ interface RentalRequestButtonProps {
 }
 
 export function RentalRequestButton({ propertyId, status }: RentalRequestButtonProps) {
-  const { user, isAuthenticated } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
+  const { data: userData } = useMe();
+  const user = userData?.data;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 

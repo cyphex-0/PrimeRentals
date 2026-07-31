@@ -1,7 +1,6 @@
 "use client";
 
 import { useAllUsers, useAdminProperties, useAllRentals } from "@/hooks/api/use-admin";
-import { useAuthStore } from "@/lib/stores/auth-store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Building2, Key, CheckCircle, ArrowRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -9,8 +8,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function AdminDashboard() {
-  const { user } = useAuthStore();
-  
   const { data: usersData, isLoading: usersLoading } = useAllUsers();
   const { data: propertiesData, isLoading: propertiesLoading } = useAdminProperties();
   const { data: rentalsData, isLoading: rentalsLoading } = useAllRentals();

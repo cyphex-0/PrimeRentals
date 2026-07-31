@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useAllUsers, useUpdateUserStatus } from "@/hooks/api/use-admin";
-import { useAuthStore } from "@/lib/stores/auth-store";
+import { useMe } from "@/hooks/api/use-auth";
 import { Search, ShieldAlert, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { User } from "@/lib/types";
@@ -24,7 +24,8 @@ import {
 const ITEMS_PER_PAGE = 10;
 
 export default function AdminUsersPage() {
-  const { user: currentUser } = useAuthStore();
+  const { data: meData } = useMe();
+  const currentUser = meData?.data;
   const { data, isLoading } = useAllUsers();
   const { mutate: updateStatus, isPending } = useUpdateUserStatus();
 

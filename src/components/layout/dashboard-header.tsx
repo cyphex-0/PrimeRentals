@@ -6,12 +6,15 @@ import { Input } from "../ui/input"
 import { Avatar } from "../ui/avatar"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "../ui/dropdown-menu"
 import { useAuthStore } from "@/lib/stores/auth-store"
+import { useMe } from "@/hooks/api/use-auth"
 import { User, LogOut } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 
 export function DashboardHeader({ onMenuClick }: { onMenuClick?: () => void }) {
-  const { user, clearAuth } = useAuthStore()
+  const { clearAuth } = useAuthStore()
+  const { data: userData } = useMe()
+  const user = userData?.data
   const router = useRouter()
   
   const userName = user?.name || "User"
@@ -45,9 +48,9 @@ export function DashboardHeader({ onMenuClick }: { onMenuClick?: () => void }) {
             <span className="text-xs text-muted-foreground mt-1">{userRole}</span>
           </div>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger>
               <button className="outline-none">
-                <Avatar fallback={initials} src={user?.profileImage} size="sm" className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all" />
+                <Avatar fallback={initials} src={user?.profileImage || undefined} size="sm" className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="right" className="w-56">

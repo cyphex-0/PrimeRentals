@@ -3,23 +3,26 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/stores/auth-store";
+import { useMe } from "@/hooks/api/use-auth";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const { user, isAuthenticated, isLoading } = useAuthStore();
+  const { isAuthenticated, isLoading: authLoading } = useAuthStore();
+  const { data, isLoading: meLoading } = useMe();
+  const user = data?.data;
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!authLoading && !meLoading) {
       if (!isAuthenticated) {
         router.push("/auth/login");
       } else if (user?.role !== "ADMIN") {
         router.push("/auth/login");
       }
     }
-  }, [user, isAuthenticated, isLoading, router]);
+  }, [user, isAuthenticated, authLoading, meLoading, router]);
 
   // If we are still checking auth status and haven't found a session yet, wait.
-  if (isLoading && !isAuthenticated) {
+  if (authLoading || (isAuthenticated && meLoading)) {
     return null;
   }
   

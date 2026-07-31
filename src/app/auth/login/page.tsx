@@ -26,7 +26,7 @@ export default function LoginPage() {
     try {
       const res = await loginUser(data);
       if (res.success && res.data) {
-        setAuth(res.data.user, res.data.token);
+        setAuth(res.data.token);
         toast.success("Welcome back!");
         
         const role = res.data.user.role;

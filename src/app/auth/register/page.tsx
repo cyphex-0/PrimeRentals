@@ -30,7 +30,7 @@ export default function RegisterPage() {
     try {
       const res = await registerUser(data);
       if (res.success && res.data) {
-        setAuth(res.data.user, res.data.token);
+        setAuth(res.data.token);
         toast.success("Account created successfully!");
         
         const role = res.data.user.role;

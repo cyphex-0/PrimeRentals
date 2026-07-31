@@ -2,6 +2,7 @@
 
 import { useLandlordProperties, useLandlordRequests } from "@/hooks/api/use-landlord";
 import { useAuthStore } from "@/lib/stores/auth-store";
+import { useMe } from "@/hooks/api/use-auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2, Key, CheckCircle, Clock, ArrowRight } from "lucide-react";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -11,7 +12,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function LandlordDashboard() {
-  const { user } = useAuthStore();
+  const { data: userData } = useMe();
+  const user = userData?.data;
   const { data: propertiesData, isLoading: propertiesLoading } = useLandlordProperties();
   const { data: requestsData, isLoading: requestsLoading } = useLandlordRequests();
 

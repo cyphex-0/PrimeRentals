@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, User as UserIcon } from "lucide-react";
 import { useAuthStore } from "@/lib/stores/auth-store";
-import { useUpdateProfile } from "@/hooks/api/use-auth";
+import { useMe, useUpdateProfile } from "@/hooks/api/use-auth";
 import { updateProfileSchema, UpdateProfileInput } from "@/lib/validations/auth";
 import { Button } from "@/components/ui/button";
 import { User } from "@/lib/types";
@@ -15,7 +15,8 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 
 export default function ProfilePage() {
-  const { user } = useAuthStore();
+  const { data: userData } = useMe();
+  const user = userData?.data;
   const { mutate, isPending } = useUpdateProfile();
   
   const { register, handleSubmit, formState: { errors }, reset } = useForm<UpdateProfileInput>({

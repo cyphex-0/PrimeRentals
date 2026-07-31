@@ -1,13 +1,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { AuthUser } from '../types';
 
 interface AuthState {
-  user: AuthUser | null;
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  setAuth: (user: AuthUser, token: string) => void;
+  setAuth: (token: string) => void;
   setToken: (token: string) => void;
   clearAuth: () => void;
   setLoading: (loading: boolean) => void;
@@ -16,18 +14,32 @@ interface AuthState {
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      user: null,
       token: null,
       isAuthenticated: false,
       isLoading: true,
-      setAuth: (user, token) => set({ user, token, isAuthenticated: true, isLoading: false }),
-      setToken: (token) => set({ token, isAuthenticated: !!token }),
-      clearAuth: () => set({ user: null, token: null, isAuthenticated: false, isLoading: false }),
+      setAuth: (token) => {
+        if (typeof document !== 'undefined') {
+          document.cookie = `token=${token}; path=/; max-age=86400; SameSite=Lax`;
+        }
+        set({ token, isAuthenticated: true, isLoading: false });
+      },
+      setToken: (token) => {
+        if (typeof document !== 'undefined') {
+          document.cookie = `token=${token}; path=/; max-age=86400; SameSite=Lax`;
+        }
+        set({ token, isAuthenticated: !!token });
+      },
+      clearAuth: () => {
+        if (typeof document !== 'undefined') {
+          document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        }
+        set({ token: null, isAuthenticated: false, isLoading: false });
+      },
       setLoading: (isLoading) => set({ isLoading }),
     }),
     {
       name: 'auth-storage',
-      partialize: (state) => ({ user: state.user, token: state.token, isAuthenticated: state.isAuthenticated }),
+      partialize: (state) => ({ token: state.token, isAuthenticated: state.isAuthenticated }),
     }
   )
 );

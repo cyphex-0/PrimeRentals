@@ -8,10 +8,13 @@ import { Button } from "../ui/button"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "../ui/dropdown-menu"
 import { Avatar } from "../ui/avatar"
 import { useAuthStore } from "@/lib/stores/auth-store"
+import { useMe } from "@/hooks/api/use-auth"
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const { isAuthenticated: isLoggedIn, user, clearAuth } = useAuthStore();
+  const { isAuthenticated: isLoggedIn, clearAuth } = useAuthStore();
+  const { data: userData } = useMe();
+  const user = userData?.data;
   const router = useRouter();
   
   const userRole = user?.role || "TENANT";
@@ -50,7 +53,7 @@ export function Navbar() {
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <Avatar fallback={initials} src={user?.profileImage} />
+                <Avatar fallback={initials} src={user?.profileImage || undefined} />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="right" className="w-56">
                 <Link href="/dashboard/profile">
