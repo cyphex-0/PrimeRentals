@@ -87,19 +87,6 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
 
 ---
 
-## ☁️ Deploying to Vercel
-
-RentNest is fully configured and optimized for zero-config Vercel deployments.
-
-1. Push your code to a GitHub repository.
-2. Log in to [Vercel](https://vercel.com/) and click **Add New** > **Project**.
-3. Import your repository from GitHub.
-4. In the **Configure Project** section, open the **Environment Variables** dropdown.
-5. Add `NEXT_PUBLIC_API_URL` and `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`.
-6. Click **Deploy**. Vercel will automatically detect the Next.js App Router and create an optimized production build.
-
----
-
 ## 📄 License
 
 This project is open-source and available under the [MIT License](LICENSE).
