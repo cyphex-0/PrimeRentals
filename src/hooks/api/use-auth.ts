@@ -15,10 +15,17 @@ export function useMe() {
 
 export function useUpdateProfile() {
   const queryClient = useQueryClient();
+  const setAuth = useAuthStore((state) => state.setAuth);
+  const token = useAuthStore((state) => state.token);
+  
   return useMutation({
     mutationFn: updateProfile,
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
+      // Update the user in the auth store so UI reflects changes instantly
+      if (res.data && token) {
+        setAuth(res.data, token);
+      }
       toast.success("Profile updated successfully!");
     },
     onError: (error: ApiError) => {

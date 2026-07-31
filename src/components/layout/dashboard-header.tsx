@@ -47,7 +47,7 @@ export function DashboardHeader({ onMenuClick }: { onMenuClick?: () => void }) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="outline-none">
-                <Avatar fallback={initials} size="sm" className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all" />
+                <Avatar fallback={initials} src={user?.profileImage} size="sm" className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="right" className="w-56">

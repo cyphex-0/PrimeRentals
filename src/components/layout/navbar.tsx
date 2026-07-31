@@ -50,7 +50,7 @@ export function Navbar() {
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <Avatar fallback={initials} />
+                <Avatar fallback={initials} src={user?.profileImage} />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="right" className="w-56">
                 <Link href="/dashboard/profile">

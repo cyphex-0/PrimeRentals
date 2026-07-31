@@ -20,6 +20,10 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
     
     const [imageError, setImageError] = React.useState(false);
 
+    React.useEffect(() => {
+      setImageError(false);
+    }, [src]);
+
     return (
       <div
         ref={ref}
