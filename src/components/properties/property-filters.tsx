@@ -121,6 +121,7 @@ export function PropertyFilters({ categories }: { categories: Category[] }) {
             <Input 
               type="number" 
               placeholder="$0" 
+              min="0"
               className="h-9 text-sm"
               value={minPrice}
               onChange={(e) => setMinPrice(e.target.value)}
@@ -131,6 +132,7 @@ export function PropertyFilters({ categories }: { categories: Category[] }) {
             <Input 
               type="number" 
               placeholder="$Any" 
+              min="0"
               className="h-9 text-sm"
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
@@ -146,10 +148,11 @@ export function PropertyFilters({ categories }: { categories: Category[] }) {
             onChange={(e) => setBedrooms(e.target.value)}
           >
             <option value="">Any</option>
-            <option value="1">1+</option>
-            <option value="2">2+</option>
-            <option value="3">3+</option>
-            <option value="4">4+</option>
+            <option value="1">1 Room</option>
+            <option value="2">2 Rooms</option>
+            <option value="3">3 Rooms</option>
+            <option value="4">4 Rooms</option>
+            <option value="5">5 Rooms</option>
           </select>
         </div>
 

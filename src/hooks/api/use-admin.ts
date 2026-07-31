@@ -47,6 +47,7 @@ export function useAdminUpdateProperty() {
     mutationFn: ({ id, data }: { id: string; data: unknown }) => adminUpdateProperty(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-properties"] });
+      queryClient.invalidateQueries({ queryKey: ["properties"] });
       toast.success("Property updated successfully!");
     },
     onError: (error: ApiError) => {
@@ -61,6 +62,7 @@ export function useAdminDeleteProperty() {
     mutationFn: adminDeleteProperty,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-properties"] });
+      queryClient.invalidateQueries({ queryKey: ["properties"] });
       toast.success("Property deleted successfully!");
     },
     onError: (error: ApiError) => {
