@@ -66,6 +66,7 @@ export default function ManageRequestsPage() {
     if (!matchesSearch) return false;
     if (activeTab === "all") return true;
     if (activeTab === "pending") return status === "PENDING";
+    if (activeTab === "approved") return status === "APPROVED";
     if (activeTab === "active") return status === "ACTIVE";
     if (activeTab === "past") return status === "COMPLETED" || status === "REJECTED";
     
@@ -93,6 +94,12 @@ export default function ManageRequestsPage() {
             onClick={() => setActiveTab("pending")}
           >
             Pending
+          </button>
+          <button
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${activeTab === "approved" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:bg-muted/80"}`}
+            onClick={() => setActiveTab("approved")}
+          >
+            Approved
           </button>
           <button
             className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${activeTab === "active" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:bg-muted/80"}`}
