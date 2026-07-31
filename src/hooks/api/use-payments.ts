@@ -34,6 +34,7 @@ export function useConfirmPayment() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["payments"] });
       queryClient.invalidateQueries({ queryKey: ["tenant-rentals"] });
+      queryClient.invalidateQueries({ queryKey: ["properties"] });
       toast.success("Payment confirmed successfully!");
     },
     onError: (error: ApiError) => {

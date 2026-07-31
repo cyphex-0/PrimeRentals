@@ -12,6 +12,7 @@ function PaymentSuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const paymentIntent = searchParams.get("payment_intent");
+  const urlPaymentId = searchParams.get("paymentId"); // Get paymentId directly from URL if provided
 
   const { data: paymentsData, isLoading: isLoadingPayments } = usePaymentHistory();
   const { mutate: confirmPayment, isPending: isConfirming, isSuccess, isError } = useConfirmPayment();
@@ -22,7 +23,15 @@ function PaymentSuccessContent() {
   useEffect(() => {
     if (!paymentIntent || isLoadingPayments || hasConfirmed || isConfirming || isSuccess) return;
 
-    // Find the backend payment ID using the Stripe transaction ID
+    if (urlPaymentId) {
+      // If we have the exact paymentId from the URL, confirm it immediately
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setHasConfirmed(true);
+      confirmPayment({ paymentId: urlPaymentId });
+      return;
+    }
+
+    // Fallback: Find the backend payment ID using the Stripe transaction ID
     const matchingPayment = payments.find(p => p.transactionId === paymentIntent);
 
     if (matchingPayment && matchingPayment.status === "PENDING") {
@@ -30,7 +39,7 @@ function PaymentSuccessContent() {
       setHasConfirmed(true);
       confirmPayment({ paymentId: matchingPayment.id });
     }
-  }, [paymentIntent, payments, isLoadingPayments, hasConfirmed, isConfirming, isSuccess, confirmPayment]);
+  }, [paymentIntent, urlPaymentId, payments, isLoadingPayments, hasConfirmed, isConfirming, isSuccess, confirmPayment]);
 
   if (!paymentIntent) {
     return (
@@ -41,8 +50,8 @@ function PaymentSuccessContent() {
     );
   }
 
-  // Find the matched payment to display details
-  const matchedPayment = payments.find(p => p.transactionId === paymentIntent);
+  // Find the matched payment to display details (optional for display)
+  const matchedPayment = payments.find(p => p.transactionId === paymentIntent || p.id === urlPaymentId);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] p-4">
@@ -63,11 +72,11 @@ function PaymentSuccessContent() {
         
         <CardHeader className="space-y-2 pb-4">
           <CardTitle className="text-2xl">
-            {isConfirming || isLoadingPayments ? "Verifying Payment..." : 
+            {isConfirming || (isLoadingPayments && !urlPaymentId) ? "Verifying Payment..." : 
              isError ? "Verification Failed" : "Payment Successful!"}
           </CardTitle>
           <CardDescription className="text-base">
-            {isConfirming || isLoadingPayments ? (
+            {isConfirming || (isLoadingPayments && !urlPaymentId) ? (
               "Please wait while we confirm your payment with the server."
             ) : isError ? (
               "We received your payment but failed to verify it. Please contact support."
@@ -106,7 +115,7 @@ function PaymentSuccessContent() {
           <Button 
             className="w-full" 
             onClick={() => router.push("/dashboard/tenant/rentals")}
-            disabled={isConfirming || isLoadingPayments}
+            disabled={isConfirming || (isLoadingPayments && !urlPaymentId)}
           >
             Go to My Rentals
             <ArrowRight className="ml-2 w-4 h-4" />
