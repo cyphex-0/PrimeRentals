@@ -46,17 +46,21 @@ function PaymentSuccessContent() {
   // Find the matched payment to display details (optional for display)
   const matchedPayment = payments.find(p => p.transactionId === paymentIntent);
 
+  const isErrorState = isError || (!isLoadingPayments && !isConfirming && !isSuccess && matchedPayment?.status !== "COMPLETED");
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] p-4">
       <Card className="w-full max-w-md border-border/50 shadow-lg text-center overflow-hidden">
-        <div className="h-32 bg-emerald-500/10 flex items-center justify-center border-b border-emerald-500/20">
+        <div className={`h-32 flex items-center justify-center border-b ${isErrorState ? 'bg-red-500/10 border-red-500/20' : 'bg-emerald-500/10 border-emerald-500/20'}`}>
           <div className="relative">
             {isConfirming || isLoadingPayments ? (
               <Loader2 className="w-16 h-16 text-emerald-500 animate-spin" />
             ) : isSuccess || (matchedPayment?.status === "COMPLETED") ? (
               <CheckCircle2 className="w-16 h-16 text-emerald-500" />
-            ) : isError ? (
-              <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center text-red-500 text-2xl font-bold">!</div>
+            ) : isErrorState ? (
+              <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center text-red-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              </div>
             ) : (
               <CheckCircle2 className="w-16 h-16 text-emerald-500" />
             )}
@@ -66,12 +70,12 @@ function PaymentSuccessContent() {
         <CardHeader className="space-y-2 pb-4">
           <CardTitle className="text-2xl">
             {isConfirming || isLoadingPayments ? "Verifying Payment..." : 
-             isError ? "Verification Failed" : "Payment Successful!"}
+             isErrorState ? "Verification Failed" : "Payment Successful!"}
           </CardTitle>
           <CardDescription className="text-base">
             {isConfirming || isLoadingPayments ? (
               "Please wait while we confirm your payment with the server."
-            ) : isError ? (
+            ) : isErrorState ? (
               "We received your payment but failed to verify it. Please contact support."
             ) : (
               "Your transaction has been securely processed."
