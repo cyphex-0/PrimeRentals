@@ -142,18 +142,14 @@ export function PropertyFilters({ categories }: { categories: Category[] }) {
 
         <div className="space-y-1.5">
           <label className="text-xs font-medium text-muted-foreground">Bedrooms</label>
-          <select 
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          <Input 
+            type="number" 
+            placeholder="Any" 
+            min="1"
+            className="h-9 text-sm"
             value={bedrooms}
             onChange={(e) => setBedrooms(e.target.value)}
-          >
-            <option value="">Any</option>
-            <option value="1">1 Room</option>
-            <option value="2">2 Rooms</option>
-            <option value="3">3 Rooms</option>
-            <option value="4">4 Rooms</option>
-            <option value="5">5 Rooms</option>
-          </select>
+          />
         </div>
 
         <div className="space-y-1.5">
