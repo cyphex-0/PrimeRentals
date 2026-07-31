@@ -112,7 +112,7 @@ export default function PaymentPage({ params }: { params: Promise<{ id: string }
   const rental = data?.data;
 
   useEffect(() => {
-    if (rental && rental.status === "APPROVED" && !clientSecret && !isCreatingIntent) {
+    if (rental && rental.status === "APPROVED" && !clientSecret && !isCreatingIntent && !setupError) {
       createIntent(
         { rentalRequestId: rental.id },
         {
@@ -133,7 +133,7 @@ export default function PaymentPage({ params }: { params: Promise<{ id: string }
         }
       );
     }
-  }, [rental, clientSecret, createIntent, isCreatingIntent]);
+  }, [rental, clientSecret, createIntent, isCreatingIntent, setupError]);
 
   if (isLoading) {
     return (
