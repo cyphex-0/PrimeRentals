@@ -30,15 +30,24 @@ export default function AdminUsersPage() {
   const { mutate: updateStatus, isPending } = useUpdateUserStatus();
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<"ALL" | "ACTIVE" | "BANNED">("ALL");
   const [page, setPage] = useState(1);
   const [actionDialog, setActionDialog] = useState<{ id: string; name: string; isBanned: boolean } | null>(null);
 
   const users = data?.data || [];
 
-  const filteredUsers = users.filter((u) => 
-    u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    u.email.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const totalCount = users.length;
+  const activeCount = users.filter((u) => !u.isBanned).length;
+  const bannedCount = users.filter((u) => u.isBanned).length;
+
+  const filteredUsers = users.filter((u) => {
+    const matchesSearch = u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          u.email.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesStatus = statusFilter === "ALL" ||
+                          (statusFilter === "ACTIVE" && !u.isBanned) ||
+                          (statusFilter === "BANNED" && u.isBanned);
+    return matchesSearch && matchesStatus;
+  });
 
   const totalPages = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE);
   const paginatedUsers = filteredUsers.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
@@ -138,17 +147,46 @@ export default function AdminUsersPage() {
         </div>
       </div>
 
-      <div className="flex items-center gap-2 max-w-md">
-        <Search className="w-4 h-4 text-muted-foreground absolute ml-3" />
-        <Input
-          placeholder="Search by name or email..."
-          value={searchQuery}
-          onChange={(e) => {
-            setSearchQuery(e.target.value);
-            setPage(1); // Reset to page 1 on search
-          }}
-          className="pl-9 w-full"
-        />
+      <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center bg-card p-4 rounded-xl border border-border/60 shadow-sm">
+        <div className="flex items-center gap-2 flex-wrap">
+          <Button
+            variant={statusFilter === "ALL" ? "default" : "outline"}
+            size="sm"
+            onClick={() => { setStatusFilter("ALL"); setPage(1); }}
+            className="rounded-full px-4 h-9 font-medium shadow-sm transition-all"
+          >
+            All Users <span className={`ml-1.5 text-xs px-2 py-0.5 rounded-full font-semibold ${statusFilter === "ALL" ? "bg-primary-foreground/20 text-primary-foreground" : "bg-muted text-muted-foreground"}`}>{totalCount}</span>
+          </Button>
+          <Button
+            variant={statusFilter === "ACTIVE" ? "default" : "outline"}
+            size="sm"
+            onClick={() => { setStatusFilter("ACTIVE"); setPage(1); }}
+            className={`rounded-full px-4 h-9 font-medium shadow-sm transition-all ${statusFilter === "ACTIVE" ? "bg-emerald-600 hover:bg-emerald-700 text-white" : "hover:text-emerald-600 border-border"}`}
+          >
+            Active <span className={`ml-1.5 text-xs px-2 py-0.5 rounded-full font-semibold ${statusFilter === "ACTIVE" ? "bg-white/20 text-white" : "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300"}`}>{activeCount}</span>
+          </Button>
+          <Button
+            variant={statusFilter === "BANNED" ? "default" : "outline"}
+            size="sm"
+            onClick={() => { setStatusFilter("BANNED"); setPage(1); }}
+            className={`rounded-full px-4 h-9 font-medium shadow-sm transition-all ${statusFilter === "BANNED" ? "bg-red-600 hover:bg-red-700 text-white" : "hover:text-red-600 border-border"}`}
+          >
+            Banned <span className={`ml-1.5 text-xs px-2 py-0.5 rounded-full font-semibold ${statusFilter === "BANNED" ? "bg-white/20 text-white" : "bg-red-100 text-red-800 dark:bg-red-950/60 dark:text-red-300"}`}>{bannedCount}</span>
+          </Button>
+        </div>
+
+        <div className="relative w-full sm:w-72">
+          <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
+          <Input
+            placeholder="Search by name or email..."
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setPage(1); // Reset to page 1 on search
+            }}
+            className="pl-9 w-full rounded-lg bg-background"
+          />
+        </div>
       </div>
 
       {isLoading ? (
