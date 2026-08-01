@@ -45,7 +45,7 @@ export default function EditPropertyPage({ params }: { params: Promise<{ id: str
       area: 0,
       categoryId: "",
       amenities: [],
-      images: [""],
+      images: [],
       status: "AVAILABLE",
     }
   });
@@ -63,7 +63,7 @@ export default function EditPropertyPage({ params }: { params: Promise<{ id: str
         area: property.area,
         categoryId: property.categoryId,
         amenities: property.amenities || [],
-        images: property.images && property.images.length > 0 ? property.images : [""],
+        images: property.images && property.images.length > 0 ? property.images : [],
         status: property.status,
       });
     }

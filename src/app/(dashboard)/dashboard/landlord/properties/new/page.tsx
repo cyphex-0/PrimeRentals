@@ -40,7 +40,7 @@ export default function CreatePropertyPage() {
       area: 0,
       categoryId: "",
       amenities: [],
-      images: [""],
+      images: [],
     }
   });
   

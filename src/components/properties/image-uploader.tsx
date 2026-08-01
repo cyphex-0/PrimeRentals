@@ -31,18 +31,34 @@ export function ImageUploader({ images, onChange, error }: ImageUploaderProps) {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (images.length >= 15) return;
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
     
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const base64 = event.target?.result as string;
-      onChange([...images, base64]);
+    // Calculate how many more images we can accept
+    const availableSlots = 15 - images.length;
+    if (availableSlots <= 0) return;
+    
+    // Slice to the maximum allowed limit
+    const filesToProcess = files.slice(0, availableSlots);
+    
+    const base64Promises = filesToProcess.map((file) => {
+      return new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (event) => resolve(event.target?.result as string);
+        reader.onerror = (error) => reject(error);
+        reader.readAsDataURL(file);
+      });
+    });
+
+    try {
+      const newBase64Images = await Promise.all(base64Promises);
+      onChange([...images, ...newBase64Images]);
+    } catch (error) {
+      console.error("Error reading files:", error);
+    } finally {
       if (fileInputRef.current) fileInputRef.current.value = "";
-    };
-    reader.readAsDataURL(file);
+    }
   };
 
   const handleDragStart = (index: number) => {
@@ -94,6 +110,7 @@ export function ImageUploader({ images, onChange, error }: ImageUploaderProps) {
             ref={fileInputRef}
             type="file" 
             accept="image/*"
+            multiple
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
             onChange={handleFileUpload}
             disabled={images.length >= 15}
