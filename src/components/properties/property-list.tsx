@@ -57,7 +57,7 @@ export function PropertyList({ properties, meta }: { properties: Property[], met
                   <div className="w-full h-full flex items-center justify-center text-muted-foreground">No image</div>
                 )}
                 <div className="absolute top-4 left-4">
-                  <Badge variant="secondary" className="bg-background/90 backdrop-blur-sm shadow-sm font-semibold">
+                  <Badge variant="outline" className="bg-background/95 text-foreground border-border/80 backdrop-blur-md shadow-md font-semibold px-3 py-1">
                     {property.category?.name || "Property"}
                   </Badge>
                 </div>
