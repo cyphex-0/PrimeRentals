@@ -10,7 +10,9 @@ export const createPropertySchema = z.object({
   bathrooms: z.number().int().min(1, "At least 1 bathroom required"),
   area: z.number().positive("Area must be positive"),
   amenities: z.array(z.string()).min(1, "At least one amenity required"),
-  images: z.array(z.string().url("Must be a valid URL")).min(1, "At least one image required"),
+  images: z.array(z.string().url("Must be a valid URL"))
+    .min(3, "At least 3 images are required")
+    .max(15, "Maximum of 15 images allowed"),
   categoryId: z.string().min(1, "Category is required"),
 });
 

@@ -30,8 +30,9 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
       />
       <div className="relative z-50 w-full max-w-lg rounded-2xl bg-white dark:bg-slate-900 p-6 shadow-xl animate-in fade-in zoom-in-95 duration-200">
         <button 
+          type="button"
           onClick={() => onOpenChange(false)}
-          className="absolute right-4 top-4 rounded-full p-2 text-muted-foreground hover:bg-muted transition-colors"
+          className="absolute right-4 top-4 rounded-full p-2 text-muted-foreground hover:bg-muted transition-colors z-50"
         >
           <X className="h-4 w-4" />
         </button>

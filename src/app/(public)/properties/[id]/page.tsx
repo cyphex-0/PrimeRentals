@@ -6,6 +6,7 @@ import { formatPrice, formatDate } from "@/lib/utils/format";
 import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
 import { RentalRequestButton } from "@/components/rentals/rental-request-button";
+import { PropertyGallery } from "@/components/properties/property-gallery";
 
 export async function generateMetadata(
   props: { params: Promise<{ id: string }> }
@@ -31,40 +32,8 @@ export default async function PropertyDetailPage(
 
   return (
     <main className="container px-4 md:px-6 py-8">
-      {/* Gallery */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 h-[400px] md:h-[500px] rounded-2xl overflow-hidden mb-8">
-        <div className="md:col-span-3 relative h-full bg-muted">
-          {property.images[0] ? (
-            <Image 
-              src={property.images[0]} 
-              alt={property.title} 
-              fill 
-              className="object-cover" 
-              sizes="(max-width: 768px) 100vw, 75vw"
-            />
-          ) : (
-            <div className="flex h-full items-center justify-center text-muted-foreground">No image</div>
-          )}
-        </div>
-        <div className="hidden md:flex flex-col gap-2 h-full">
-          {property.images.slice(1, 3).map((img, i) => (
-            <div key={i} className="relative flex-1 bg-muted rounded-md overflow-hidden">
-              <Image 
-                src={img} 
-                alt={`${property.title} ${i + 2}`} 
-                fill 
-                className="object-cover" 
-                sizes="25vw"
-              />
-            </div>
-          ))}
-          {property.images.length < 2 && (
-             <div className="relative flex-1 bg-muted rounded-md"></div>
-          )}
-          {property.images.length < 3 && (
-             <div className="relative flex-1 bg-muted rounded-md"></div>
-          )}
-        </div>
+      <div className="mb-8">
+        <PropertyGallery images={property.images} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">

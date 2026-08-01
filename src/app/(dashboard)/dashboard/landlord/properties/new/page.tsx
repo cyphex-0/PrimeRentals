@@ -12,8 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { ImageUploader } from "@/components/properties/image-uploader";
 import Link from "next/link";
-import Image from "next/image";
 
 const COMMON_AMENITIES = [
   "WiFi", "Parking", "Gym", "Pool", "AC", "Laundry", 
@@ -44,21 +44,6 @@ export default function CreatePropertyPage() {
     }
   });
   
-  // Hack for react-hook-form string array
-  const handleAddImage = () => {
-    const currentImages = getValues("images");
-    setValue("images", [...currentImages, ""]);
-  };
-  const handleRemoveImage = (index: number) => {
-    const currentImages = getValues("images");
-    setValue("images", currentImages.filter((_, i) => i !== index));
-  };
-  const updateImage = (index: number, value: string) => {
-    const currentImages = [...getValues("images")];
-    currentImages[index] = value;
-    setValue("images", currentImages);
-  };
-
   const selectedAmenities = watch("amenities");
 
   const toggleAmenity = (amenity: string) => {
@@ -70,11 +55,8 @@ export default function CreatePropertyPage() {
   };
 
   const onSubmit = (data: CreatePropertyInput) => {
-    // Filter out empty images
+    // Filter out empty images just in case
     data.images = data.images.filter(img => img.trim() !== "");
-    if (data.images.length === 0) {
-      data.images = ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"]; // Fallback if they manage to submit empty
-    }
     
     createProperty(data, {
       onSuccess: () => {
@@ -212,57 +194,11 @@ export default function CreatePropertyPage() {
               <CardDescription>Provide URLs for property images. First image will be the cover.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="space-y-3">
-                {currentImages.map((img, index) => (
-                  <div key={index} className="flex gap-2">
-                    <div className="flex-1 space-y-1">
-                      <Input 
-                        placeholder="https://..." 
-                        value={img}
-                        onChange={(e) => updateImage(index, e.target.value)}
-                      />
-                      {errors.images?.[index] && <p className="text-xs text-destructive">{errors.images[index]?.message}</p>}
-                    </div>
-                    {currentImages.length > 1 && (
-                      <Button type="button" variant="outline" className="shrink-0 px-3 text-destructive" onClick={() => handleRemoveImage(index)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    )}
-                  </div>
-                ))}
-                {errors.images && !errors.images.length && <p className="text-sm text-destructive">{errors.images.message}</p>}
-                <Button type="button" variant="outline" onClick={handleAddImage} className="w-full border-dashed">
-                  <Plus className="h-4 w-4 mr-2" /> Add Another Image URL
-                </Button>
-              </div>
-
-              {/* Previews */}
-              {currentImages.some(img => img.length > 0) && (
-                <div>
-                  <h4 className="text-sm font-medium mb-3">Image Previews</h4>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                    {currentImages.map((img, index) => (
-                      img ? (
-                        <div key={index} className="relative aspect-video rounded-md overflow-hidden bg-muted border border-border/50 group">
-                          <img 
-                            src={img} 
-                            alt={`Preview ${index}`} 
-                            className="object-cover w-full h-full"
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="%23cbd5e1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>';
-                            }}
-                          />
-                          {index === 0 && (
-                            <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs px-2 py-1 rounded shadow-sm font-medium">
-                              Cover
-                            </div>
-                          )}
-                        </div>
-                      ) : null
-                    ))}
-                  </div>
-                </div>
-              )}
+              <ImageUploader 
+                images={watch("images") || []} 
+                onChange={(newImages) => setValue("images", newImages, { shouldValidate: true })}
+                error={errors.images?.message}
+              />
             </CardContent>
             <CardFooter className="bg-muted/30 border-t border-border/50 py-4 flex justify-end gap-2">
               <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
