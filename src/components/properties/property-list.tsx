@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Bed, Bath, Square, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
+import { Bed, Bath, Square, MapPin, ChevronLeft, ChevronRight, Search, Star } from "lucide-react";
 import { Property, PaginationMeta } from "@/lib/types";
 import { formatPrice } from "@/lib/utils/format";
 import { Badge } from "@/components/ui/badge";
@@ -75,9 +75,20 @@ export function PropertyList({ properties, meta }: { properties: Property[], met
                   <div className="flex items-center gap-1"><Bath className="h-4 w-4"/> {property.bathrooms}</div>
                   <div className="flex items-center gap-1"><Square className="h-4 w-4"/> {property.area} sqft</div>
                 </div>
-                <div className="mt-5 border-t pt-4 flex items-center justify-between">
+                <div className="mt-5 border-t border-border/50 pt-4 flex items-center justify-between">
                   <div className="text-xl font-bold text-foreground">
                     {formatPrice(property.rent)}<span className="text-sm font-normal text-muted-foreground">/mo</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-amber-500/10 dark:bg-amber-500/20 border border-amber-500/30 rounded-full px-2.5 py-1 text-xs font-semibold text-amber-700 dark:text-amber-300">
+                    <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500 shrink-0" />
+                    {property.reviews && property.reviews.length > 0 ? (
+                      <span>
+                        {(property.reviews.reduce((acc, rev) => acc + rev.rating, 0) / property.reviews.length).toFixed(1)}{" "}
+                        <span className="font-normal opacity-80">({property.reviews.length})</span>
+                      </span>
+                    ) : (
+                      <span className="font-normal opacity-80">New</span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -112,6 +123,3 @@ export function PropertyList({ properties, meta }: { properties: Property[], met
     </div>
   );
 }
-
-// Add Search icon import that was missing above
-import { Search } from "lucide-react";
