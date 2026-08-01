@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, User as UserIcon, Building, AlertCircle } from "lucide-react";
+import { Loader2, User as UserIcon, Building, AlertCircle, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 export default function RegisterPage() {
   const router = useRouter();
   const setAuth = useAuthStore((state) => state.setAuth);
+  const [showPassword, setShowPassword] = React.useState(false);
   
   const { register, handleSubmit, control, setError, formState: { errors, isSubmitting } } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
@@ -123,12 +124,21 @@ export default function RegisterPage() {
         
         <div className="space-y-2">
           <label className="text-sm font-medium leading-none">Password</label>
-          <Input 
-            type="password" 
-            placeholder="••••••••" 
-            {...register("password")}
-            className={errors.password ? "border-destructive focus-visible:ring-destructive" : ""}
-          />
+          <div className="relative">
+            <Input 
+              type={showPassword ? "text" : "password"} 
+              placeholder="••••••••" 
+              {...register("password")}
+              className={errors.password ? "border-destructive focus-visible:ring-destructive pr-10" : "pr-10"}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none"
+            >
+              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
+          </div>
           {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
         </div>
 
