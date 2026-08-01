@@ -1,8 +1,8 @@
 <div align="center">
   <img src="https://i.ibb.co/3sX8N2V/rentnest-logo.png" alt="RentNest Logo" width="120" />
   <br />
-  <h1>RentNest 🏠 — Frontend Marketplace</h1>
-  <p><strong>A modern, role-based property rental platform connecting landlords, tenants, and platform administrators with seamless real estate experiences.</strong></p>
+  <h1>RentNest 🏠</h1>
+  <p><strong>A Next-Generation, Role-Based Real Estate & Rental Management Platform</strong></p>
 
   <p>
     <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-16.2_(App_Router)-black?style=flat-square&logo=next.js" alt="Next.js" /></a>
@@ -16,147 +16,101 @@
 
 ---
 
-## 📋 Assignment 5 — Submission Overview & Credentials
+## 📖 Executive Summary
 
-This repository contains the complete frontend implementation for **Assignment 5 (RentNest Frontend)**, fully adhering to all mandatory evaluation requirements and production UX standards.
+**RentNest** is an enterprise-grade real estate rental application built on the modern **Next.js App Router** framework. Designed with multi-role orchestration at its core, RentNest bridges the gap between property owners, prospective tenants, and platform moderators with a secure, real-time, and friction-free user experience.
 
-| Submission Requirement | Link / Details | Status |
-| :--- | :--- | :---: |
-| **Live Frontend URL (Vercel)** | [https://rentnest-frontend.vercel.app](https://rentnest-frontend.vercel.app) *(Update with exact deployment URL)* | ✅ |
-| **Backend API URL (Render)** | [https://rentnest-backend.onrender.com](https://rentnest-backend.onrender.com) *(Update with exact API server URL)* | ✅ |
-| **API Integration Documentation** | See [API_INTEGRATION.md](./API_INTEGRATION.md) for full component-to-endpoint mapping | ✅ |
-| **Demo & Walkthrough Video (7-10 min)** | [View on Google Drive / Loom](https://drive.google.com) *(Insert video link)* | ✅ |
-| **Admin Test Credentials** | **Email:** `admin@rentnest.com` <br> **Password:** `RentNestAdmin2026` | ✅ |
-| **Sample Tenant Account** | **Email:** `tenant@rentnest.com` / **Password:** `password123` | ✅ |
-| **Sample Landlord Account** | **Email:** `landlord@rentnest.com` / **Password:** `password123` | ✅ |
+The frontend engine combines **React Server Components (RSC)** with advanced asynchronous caching via **TanStack React Query v5**, strictly enforced edge-level routing authentication, end-to-end **Stripe** checkout encryption, and robust client-side schema validation using **Zod**.
 
 ---
 
-## 🏆 Mandatory Requirements Fulfillment
+## ✨ Core Architecture & Key Features
 
-This application strictly completes all 6 mandatory pillars of the Assignment 5 specifications:
+### 🛡️ Enterprise Security & Role-Based Access Control (RBAC)
+- **Edge Middleware Shield:** Utilizes lightweight Next.js runtime middleware (`src/proxy.ts`) to intercept navigation requests before execution, automatically routing users based on JWT claims (`TENANT`, `LANDLORD`, or `ADMIN`).
+- **Strict Type Safety Guarantee:** Engineered entirely in strict **TypeScript 5.x** with **zero occurrences of `any`** across state handlers, mutations, API request payloads, and schema validations.
 
-1. **📑 Complete API Integration & Mapping (`API_INTEGRATION.md`)**:
-   - Consumes every essential REST API endpoint from the custom backend (Authentication, Properties, Categories, Rental Requests, Stripe Payments, Reviews, and Admin User Moderation).
-   - Documented exhaustively in [API_INTEGRATION.md](./API_INTEGRATION.md), linking each React page and component to its backend path.
+### 🏠 Seamless Property & Lease Marketplace
+- **Real-Time Dynamic Filtering:** Discover listings with instant client responsiveness across location boundaries, monthly price thresholds, bedroom distributions, and category classifications.
+- **Cloud Media Pipeline:** Integrated directly with the **ImgBB Web API** for rapid browser-to-cloud photo ingestion during property creation, preventing backend base64 memory exhaustion while supporting drag-and-drop sequencing.
+- **Lease Status Lifecycle:** Automated visual UI states tracking applications from proposal to residency (`PENDING` → `APPROVED` → `ACTIVE` → `COMPLETED` or `REJECTED`).
 
-2. **🛡️ Consistent UI Error Handling & Production Hardening**:
-   - **Centralized Error Sanitization:** Features a custom production error firewall (`sanitizeErrorMessage`) that guarantees internal stack traces, Prisma database exception codes (`P2002`, `Foreign Key`), HTTP status code strings (`413 Request Entity Too Large`), or missing environment variable hints never leak to end users.
-   - **Structured Feedback:** Uses **Sonner** rich toast notifications for mutations, inline form field error banners, dedicated skeleton loaders (`loading.tsx`), and responsive Next.js Error Boundaries (`error.tsx`, `not-found.tsx`).
-   - **Environment Isolation:** Automatically guards developer diagnostic tools (React Query DevTools, verbose console logging) from executing in production environments.
+### 💳 Encrypted Financial Checkout (Stripe Elements)
+- **Frictionless Payment Flow:** Once a landlord approves a rental agreement, tenants gain instantaneous access to an embedded **Stripe Elements (`@stripe/react-stripe-js`)** credit card modal on `/dashboard/tenant/rentals/[id]/pay`.
+- **Transaction Resolution Routing:** Features resilient event listeners that seamlessly route users to dedicated transaction validation screens (`/payment/success` and `/payment/cancel`) upon gateway confirmation.
 
-3. **🌿 20+ Meaningful Frontend Commits**:
-   - Features a clean, descriptive Git commit history following Conventional Commit specifications (e.g., `feat: add status filters to admin user management`, `refactor(error-handling): harden production error displays and enforce strict TypeScript safety`).
-   - Repository is clean of unnecessary generated files, temporary scratch scripts, or uncommitted secrets.
-
-4. **✅ Client-Side Form Validation (Zod + React Hook Form)**:
-   - All user inputs—from authentication (`login`, `register`) to real estate listings (`createProperty`, `updateProfile`) and review submissions—are governed by strict Zod schema validation.
-   - Immediate visual feedback with animated focus rings, descriptive inline error text, and submit button spin states during asynchronous processing.
-
-5. **🔐 Verified Admin Test Credentials**:
-   - Complete admin test access provided (`admin@rentnest.com` / `RentNestAdmin2026`), giving direct access to platform-wide metrics, listing moderation, and user account status controls (Ban / Unban with live filter counts).
-
-6. **💳 Integrated Stripe Payment Flow**:
-   - Full end-to-end payment processing using **Stripe Elements (`@stripe/react-stripe-js`)** for approved rental agreements.
-   - Includes custom checkout UI on `/dashboard/tenant/rentals/[id]/pay` and dedicated transaction feedback routing to `/payment/success` and `/payment/cancel`.
-   - Simulated or offline placeholder payments are completely excluded in compliance with requirements.
+### 🎨 Production-Grade UX & Resilience Design
+- **Centralized Error Firewall:** Internal stack traces, raw JSON payloads, database constraint errors, and HTTP status code strings are strictly intercepted by a dedicated error sanitizer (`sanitizeErrorMessage`) and translated into human-readable, actionable guidance.
+- **Responsive Visual Feedback:** All background data synchronization and mutation cycles communicate clearly via **Sonner** rich toast notifications, animated field error highlights, and high-performance skeleton loader fallbacks (`loading.tsx`).
+- **Environment Isolation:** Internal diagnostic dashboards and verbose logging utilities are automatically stripped from production builds.
 
 ---
 
-## 👥 Roles & Permissions (RBAC)
+## 🛠️ Technology Stack
 
-RentNest implements strict Role-Based Access Control (RBAC) enforced simultaneously at the **Next.js Edge Middleware (`src/proxy.ts`)** layer and dynamically within component rendering:
-
-| Role | Core Purpose | Frontend Capabilities & UI Features |
+| Component / Layer | Technology | Purpose in System Architecture |
 | :--- | :--- | :--- |
-| **Tenant** | Property Seekers | Public marketplace browsing, advanced multi-filter search, interactive lease request submission (open-ended or fixed-term), Stripe secure checkout flow, lease status history table, and post-stay review submission modal. |
-| **Landlord** | Property Owners | Dedicated listing management dashboard, property CRUD forms with multi-image drag-and-drop cloud uploading (**ImgBB API**), real-time rental request review table with optimistic "Approve / Reject" quick-action toggles, and tenant review visibility. |
-| **Admin** | Platform Overseers | Global statistics overview (total platform volume, user growth), comprehensive user database table with instant **"All / Active / Banned"** filtering pills, search functionality, and direct ban/unban moderation controls. |
+| **Frontend Framework** | **Next.js 16.2.12** | React Server Components, App Router routing architectures, and accelerated Turbopack bundling. |
+| **Type Verification** | **TypeScript 5.x** | Static typing and domain modeling ensuring predictable runtime behavior without type bypasses. |
+| **Styling & Design System** | **Tailwind CSS v4 & Shadcn UI** | Utility-first responsive design system, customizable Radix primitives, and fluid micro-animations. |
+| **Server State Caching** | **TanStack React Query v5** | Advanced asynchronous query hydration, polling intervals, background invalidations, and optimistic UI table updates. |
+| **Client State Management** | **Zustand & Context API** | Low-overhead local authentication storage and persistent client interface preferences. |
+| **Form Engineering** | **React Hook Form + Zod** | Declarative state binding matched with runtime validation schema parsing and immediate visual feedback. |
+| **Payment Encryption** | **Stripe JS & Elements** | PCI-compliant credit card input processing and tokenizer interface. |
+| **Cloud Storage Gateway** | **ImgBB REST API** | High-speed cloud content delivery network for hosting listing cover art and tenant profile avatars. |
 
 ---
 
-## ✨ Features & User Journeys
+## 🚀 Local Development Setup
 
-### 🏠 Tenant Experience & Checkout
-1. **Discover:** Search properties on `/properties` with instant responsive filtering by city, monthly price range, bedroom counts, and property category.
-2. **Apply:** Open detailed listings to view verified image galleries, landlord details, and submit lease proposals via an interactive modal with Zod date-range validation.
-3. **Track & Pay:** Monitor applications on the Tenant Dashboard with visual status pills (`PENDING`, `APPROVED`, `ACTIVE`, `REJECTED`). Once approved by the landlord, unlock the **"Pay Now"** action button to initiate Stripe encryption checkout.
-4. **Review:** After a completed stay, leave verified star ratings and feedback for the property community.
-
-### 🏘️ Landlord Property & Request Pipeline
-1. **Listings Management:** Create and edit listings with automated cloud photo uploads via **ImgBB**, preventing payload limit failures while offering intuitive cover badge assignment and drag-and-drop reordering.
-2. **Lease Processing:** Monitor incoming proposals on `/dashboard/landlord/requests`. Approve candidates to immediately trigger tenant checkout enablement, or reject applications with optimistic UI updates and toast confirmations.
-
-### ⚙️ Admin Platform Oversight
-1. **User Moderation:** Access `/dashboard/admin/users` to view complete user rosters with interactive filter tabs to quickly isolate banned accounts for unbanning, or suspend violating users with immediate table reflection.
-2. **Category Hierarchy:** Add, edit, and curate real estate classifications and monitor site-wide listing health.
-
----
-
-## 🛠️ Technology Stack & Architecture
-
-| Layer / Domain | Technology | Implementation Purpose |
-| :--- | :--- | :--- |
-| **Framework** | **Next.js 16.2.12** | React Server Components (RSC), App Router architecture, and high-performance Turbopack compilation. |
-| **Type System** | **TypeScript 5.x** | Strict, mandatory type safety across all components, API payloads, and interfaces with **0 usages of `any`**. |
-| **Styling & UI** | **Tailwind CSS v4 & Shadcn UI** | Utility-first design tokens, accessible Radix UI primitives, dark/light mode variables, and micro-animations. |
-| **Server State** | **TanStack React Query v5** | Advanced asynchronous server data caching, automatic retry logic, background invalidation, and optimistic updates. |
-| **Client State** | **Zustand & Context** | Lightweight, persistent client authentication storage and theme preferences. |
-| **Validation** | **React Hook Form + Zod** | Declarative schema validation enforcing input constraints before network dispatch. |
-| **Payments** | **Stripe Elements** | Tokenized, secure credit card payment interface (`@stripe/react-stripe-js`). |
-| **Cloud Assets** | **ImgBB Free API** | Direct browser-to-cloud image asset hosting, avoiding base64 bloat on Node.js backend endpoints. |
-
----
-
-## 🚀 Local Setup & Installation
+Follow these instructions to spin up the full frontend architecture on your local workspace.
 
 ### Prerequisites
 - Node.js (v18.17 or higher recommended)
-- npm, yarn, or pnpm
+- npm, yarn, pnpm, or bun
 
-### 1. Clone the Repository
+### 1. Clone & Navigate
 ```bash
-git clone https://github.com/your-username/RentNest.git
+git clone https://github.com/cyphex-0/RentNest.git
 cd RentNest
 ```
 
-### 2. Configure Environment Variables
-Create a local `.env.local` file in the root directory:
+### 2. Environment Configuration
+Create a `.env.local` configuration file in the repository root:
 ```bash
 cp .env.example .env.local
 ```
-Populate `.env.local` with your local or remote backend endpoints and third-party keys:
+Assign your targeted backend infrastructure URLs and third-party provider keys:
 ```env
-# Backend Node.js / Express REST API Base URL
+# Target Backend REST API Gateway URL
 NEXT_PUBLIC_API_URL=http://localhost:5000/api
 
-# Stripe Payment Publishable Key (Must start with pk_test_ or pk_live_)
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_YourStripePublicKeyHere
+# Stripe Public Encryption Key (Must begin with pk_test_ for sandbox testing)
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_YourStripePublishableKey
 
-# ImgBB Client API Key (For property & profile image uploads)
-NEXT_PUBLIC_IMGBB_API_KEY=YourImgBBAPIKeyHere
+# ImgBB Cloud Client API Key (Required for listing and profile photo uploads)
+NEXT_PUBLIC_IMGBB_API_KEY=YourImgBBAPIKey
 ```
 
-### 3. Install Dependencies & Launch Dev Server
+### 3. Install Packages & Start Server
 ```bash
-# Install packages via npm
+# Install required package dependencies
 npm install
 
-# Start the Next.js development server with Turbopack
+# Launch development environment with Turbopack acceleration
 npm run dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser to inspect the application.
+Navigate to [http://localhost:3000](http://localhost:3000) inside your web browser to explore the running application.
 
 ---
 
-## 🧪 Production Verification & Build
-To verify type safety and test the production output locally:
+## 🧪 Production Assurance & Build Verification
+To execute automated strict type-checks and verify the production bundle integrity before deploying to environments like Vercel or Render:
 ```bash
-# Execute strict TypeScript compiler check (no emit)
+# Perform rigorous type analysis across all TypeScript codebases (no emit)
 npx tsc --noEmit
 
-# Assemble optimized production static and dynamic route bundles
+# Compile and package optimized production route bundles
 npm run build
 
 # Preview optimized production server locally
@@ -165,5 +119,5 @@ npm run start
 
 ---
 
-## 📄 License & Originality
-This application was architected and built from scratch as an original frontend implementation for the Programming Hero ecosystem. All components, error handling pipelines, and payment implementations follow rigorous industry best practices. Licensed under the [MIT License](LICENSE).
+## 📄 License
+This application is distributed under the [MIT License](LICENSE). Build with passion and robust software engineering standards.
