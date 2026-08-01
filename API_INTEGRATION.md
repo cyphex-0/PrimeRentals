@@ -23,7 +23,7 @@ To access the admin dashboard, please use the following credentials:
 | src/app/(public)/properties/[id]/page.tsx | /api/properties/:id | GET | — |
 | src/components/home/categories-section.tsx | /api/categories | GET | — |
 | **Tenant Dashboard** | | | |
-| src/components/properties/request-rental-modal.tsx| /api/rentals | POST | TENANT |
+| src/components/rentals/rental-request-modal.tsx | /api/rentals | POST | TENANT |
 | src/app/(dashboard)/dashboard/tenant/rentals/page.tsx | /api/rentals | GET | TENANT |
 | src/app/(dashboard)/dashboard/tenant/payments/page.tsx | /api/payments/create | POST | TENANT |
 | src/components/payments/checkout-form.tsx | /api/payments/confirm | POST | TENANT |
@@ -46,3 +46,9 @@ To access the admin dashboard, please use the following credentials:
 | src/app/(dashboard)/dashboard/admin/rentals/page.tsx | /api/admin/rentals | GET | ADMIN |
 | src/app/(dashboard)/dashboard/admin/categories/page.tsx | /api/admin/categories | POST | ADMIN |
 | src/app/(dashboard)/dashboard/admin/categories/page.tsx (Actions)| /api/admin/categories/:id | PUT/DELETE | ADMIN |
+
+## 3rd Party API Integrations
+
+| Feature | API Provider | Endpoint | Method |
+|---------|--------------|----------|--------|
+| Profile Image Upload | ImgBB | `https://api.imgbb.com/1/upload` | POST |
