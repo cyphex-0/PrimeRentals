@@ -5,6 +5,15 @@ import { Plus, Trash2, GripVertical, Image as ImageIcon, Upload } from "lucide-r
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+function formatBytes(bytes: number, decimals = 2) {
+  if (!+bytes) return '0 Bytes';
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+}
+
 interface ImageUploaderProps {
   images: string[];
   onChange: (images: string[]) => void;
@@ -14,6 +23,8 @@ interface ImageUploaderProps {
 export function ImageUploader({ images, onChange, error }: ImageUploaderProps) {
   const [newUrl, setNewUrl] = useState("");
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [uploadErrors, setUploadErrors] = useState<string[]>([]);
+  const [imageMeta, setImageMeta] = useState<Record<string, { name: string, size: number }>>({});
 
   const handleAdd = () => {
     if (!newUrl.trim()) return;
@@ -35,24 +46,104 @@ export function ImageUploader({ images, onChange, error }: ImageUploaderProps) {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
     
-    // Calculate how many more images we can accept
-    const availableSlots = 15 - images.length;
-    if (availableSlots <= 0) return;
+    setUploadErrors([]);
     
-    // Slice to the maximum allowed limit
-    const filesToProcess = files.slice(0, availableSlots);
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+    const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
     
-    const base64Promises = filesToProcess.map((file) => {
-      return new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = (event) => resolve(event.target?.result as string);
-        reader.onerror = (error) => reject(error);
-        reader.readAsDataURL(file);
-      });
+    const validFiles: File[] = [];
+    const newErrors: string[] = [];
+    
+    // 1. Validate every selected file
+    files.forEach(file => {
+      let isValid = true;
+      if (!allowedTypes.includes(file.type)) {
+        newErrors.push(`Only JPG, JPEG, PNG, and WebP images are allowed. (${file.name})`);
+        isValid = false;
+      }
+      if (file.size > MAX_SIZE) {
+        newErrors.push(`Image '${file.name}' exceeds the 5 MB limit.`);
+        isValid = false;
+      }
+      if (isValid) {
+        validFiles.push(file);
+      }
     });
+    
+    // 2. Enforce total 15 limit
+    const availableSlots = 15 - images.length;
+    let filesToProcess = validFiles;
+    
+    if (validFiles.length > availableSlots) {
+      newErrors.push(`You can upload a maximum of 15 images. Only ${availableSlots} valid file(s) were added.`);
+      filesToProcess = validFiles.slice(0, availableSlots);
+    }
+    
+    if (newErrors.length > 0) {
+      setUploadErrors(newErrors);
+    }
+    
+    if (filesToProcess.length === 0) {
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      return;
+    }
+    
+    const compressImage = (file: File): Promise<{ base64: string, name: string, size: number }> => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+          const img = new Image();
+          img.src = event.target?.result as string;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 800;
+            const MAX_HEIGHT = 800;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height) {
+              if (width > MAX_WIDTH) {
+                height *= MAX_WIDTH / width;
+                width = MAX_WIDTH;
+              }
+            } else {
+              if (height > MAX_HEIGHT) {
+                width *= MAX_HEIGHT / height;
+                height = MAX_HEIGHT;
+              }
+            }
+            canvas.width = width;
+            canvas.height = height;
+            
+            const ctx = canvas.getContext('2d');
+            ctx?.drawImage(img, 0, 0, width, height);
+            
+            resolve({ 
+              base64: canvas.toDataURL('image/jpeg', 0.6),
+              name: file.name,
+              size: file.size
+            });
+          };
+          img.onerror = (err) => reject(err);
+        };
+        reader.onerror = (err) => reject(err);
+      });
+    };
+
+    const base64Promises = filesToProcess.map((file) => compressImage(file));
 
     try {
-      const newBase64Images = await Promise.all(base64Promises);
+      const results = await Promise.all(base64Promises);
+      const newBase64Images = results.map(r => r.base64);
+      
+      // Save metadata for UI display
+      const newMeta = { ...imageMeta };
+      results.forEach(r => {
+        newMeta[r.base64] = { name: r.name, size: r.size };
+      });
+      setImageMeta(newMeta);
+      
       onChange([...images, ...newBase64Images]);
     } catch (error) {
       console.error("Error reading files:", error);
@@ -125,11 +216,20 @@ export function ImageUploader({ images, onChange, error }: ImageUploaderProps) {
       <p className="text-sm text-muted-foreground flex items-center justify-between">
         <span>Upload between 3 and 15 images. Drag to reorder.</span>
         <span className={images.length < 3 || images.length > 15 ? "text-destructive font-medium" : ""}>
-          {images.length} / 15
+          {images.length} / 15 images selected
         </span>
       </p>
 
-      {error && <p className="text-sm text-destructive">{error}</p>}
+      {/* Upload Errors */}
+      {uploadErrors.length > 0 && (
+        <div className="bg-destructive/10 border border-destructive/20 text-destructive p-3 rounded-md text-sm space-y-1">
+          {uploadErrors.map((err, i) => (
+            <p key={i}>• {err}</p>
+          ))}
+        </div>
+      )}
+
+      {error && <p className="text-sm text-destructive font-medium">{error}</p>}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
         {images.map((img, index) => (
@@ -172,9 +272,17 @@ export function ImageUploader({ images, onChange, error }: ImageUploaderProps) {
               </Button>
             </div>
 
+            {/* Metadata Overlay for uploaded images */}
+            {imageMeta[img] && (
+              <div className="absolute top-2 left-2 right-12 bg-black/60 text-white text-[10px] sm:text-xs px-2 py-1 rounded truncate pointer-events-none backdrop-blur-sm z-10">
+                <span className="font-semibold">{imageMeta[img].name}</span>
+                <span className="opacity-75 ml-1 hidden sm:inline">({formatBytes(imageMeta[img].size)})</span>
+              </div>
+            )}
+
             {/* Cover Badge */}
             {index === 0 && (
-              <div className="absolute bottom-2 left-2 bg-primary text-primary-foreground text-xs px-2.5 py-1 rounded-md shadow-md font-medium flex items-center gap-1">
+              <div className="absolute bottom-2 left-2 bg-primary text-primary-foreground text-xs px-2.5 py-1 rounded-md shadow-md font-medium flex items-center gap-1 z-10">
                 <ImageIcon className="h-3 w-3" /> Cover
               </div>
             )}
