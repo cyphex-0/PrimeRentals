@@ -66,7 +66,14 @@ export function useAdminDeleteProperty() {
       toast.success("Property deleted successfully!");
     },
     onError: (error: ApiError) => {
-      toast.error(error.message);
+      const msg = error.message?.toLowerCase() || "";
+      if (msg.includes("foreign key") || msg.includes("rentalrequest") || msg.includes("referenced from")) {
+        toast.error("Cannot delete this property because it has rental history. The backend does not support deleting properties with associated rental records.");
+      } else if (msg.includes("active or pending")) {
+        toast.error("Cannot delete a property with active or pending rental requests.");
+      } else {
+        toast.error(error.message || "Failed to delete property.");
+      }
     },
   });
 }
