@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getTenantRequests, getRentalRequestById, createRentalRequest } from "@/lib/api";
 import { ApiError } from "@/lib/types";
 import { toast } from "sonner";
+import { sanitizeErrorMessage } from "@/lib/utils/sanitize-error";
 
 export function useTenantRentals(options?: { enabled?: boolean }) {
   return useQuery({
@@ -28,7 +29,7 @@ export function useCreateRentalRequest() {
       toast.success("Rental request submitted successfully!");
     },
     onError: (error: ApiError) => {
-      toast.error(error.message);
+      toast.error(sanitizeErrorMessage(error));
     },
   });
 }

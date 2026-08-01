@@ -14,6 +14,7 @@ import { registerSchema, RegisterInput } from "@/lib/validations/auth";
 import { registerUser } from "@/lib/api";
 import { useAuthStore } from "@/lib/stores/auth-store";
 import { cn } from "@/lib/utils";
+import { sanitizeErrorMessage } from "@/lib/utils/sanitize-error";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -39,8 +40,8 @@ export default function RegisterPage() {
         else if (role === "LANDLORD") router.push("/dashboard/landlord");
         else router.push("/dashboard/admin");
       }
-    } catch (error: any) {
-      const message = error?.message || "Failed to register. Please try again.";
+    } catch (error: unknown) {
+      const message = sanitizeErrorMessage(error) || "Failed to register. Please try again.";
       setError("root", { message });
     }
   };

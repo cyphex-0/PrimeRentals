@@ -10,6 +10,7 @@ import {
 } from "@/lib/api";
 import { ApiError } from "@/lib/types";
 import { toast } from "sonner";
+import { sanitizeErrorMessage } from "@/lib/utils/sanitize-error";
 
 export function useLandlordProperties() {
   return useQuery({
@@ -35,7 +36,7 @@ export function useCreateProperty() {
       toast.success("Property created successfully!");
     },
     onError: (error: ApiError) => {
-      toast.error(error.message);
+      toast.error(sanitizeErrorMessage(error));
     },
   });
 }
@@ -50,7 +51,7 @@ export function useUpdateProperty() {
       toast.success("Property updated successfully!");
     },
     onError: (error: ApiError) => {
-      toast.error(error.message);
+      toast.error(sanitizeErrorMessage(error));
     },
   });
 }
@@ -65,14 +66,7 @@ export function useDeleteProperty() {
       toast.success("Property deleted successfully!");
     },
     onError: (error: ApiError) => {
-      const msg = error.message?.toLowerCase() || "";
-      if (msg.includes("foreign key") || msg.includes("rentalrequest") || msg.includes("referenced from")) {
-        toast.error("Cannot delete this property because it has associated rental requests. Please resolve all rental requests first.");
-      } else if (msg.includes("active or pending")) {
-        toast.error("Cannot delete a property with active or pending rental requests.");
-      } else {
-        toast.error(error.message || "Failed to delete property.");
-      }
+      toast.error(sanitizeErrorMessage(error));
     },
   });
 }
@@ -86,7 +80,7 @@ export function useUpdateRequestStatus() {
       toast.success("Request status updated!");
     },
     onError: (error: ApiError) => {
-      toast.error(error.message);
+      toast.error(sanitizeErrorMessage(error));
     },
   });
 }
@@ -100,7 +94,7 @@ export function useCompleteRental() {
       toast.success("Rental marked as completed!");
     },
     onError: (error: ApiError) => {
-      toast.error(error.message);
+      toast.error(sanitizeErrorMessage(error));
     },
   });
 }

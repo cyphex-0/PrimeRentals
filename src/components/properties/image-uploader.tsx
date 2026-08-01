@@ -120,7 +120,6 @@ export function ImageUploader({ images, onChange, error }: ImageUploaderProps) {
         onChange([...images, ...newUrls]);
       }
     } catch (err) {
-      console.error("Upload error:", err);
       setUploadErrors((prev) => [...prev, "An unexpected error occurred during upload."]);
     } finally {
       setIsUploading(false);

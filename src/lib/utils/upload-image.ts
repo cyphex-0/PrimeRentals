@@ -21,7 +21,7 @@ export interface UploadResult {
  */
 export async function uploadImageToImgBB(file: File): Promise<UploadResult> {
   if (!IMGBB_API_KEY) {
-    throw new Error("ImgBB API key is not configured. Set NEXT_PUBLIC_IMGBB_API_KEY in your .env.local file.");
+    throw new Error("Image upload service is temporarily unavailable. Please try again later.");
   }
 
   const formData = new FormData();
@@ -33,14 +33,13 @@ export async function uploadImageToImgBB(file: File): Promise<UploadResult> {
   });
 
   if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`ImgBB upload failed: ${response.status} ${errorText}`);
+    throw new Error("Failed to upload image. Please try a different file or try again later.");
   }
 
   const data = await response.json();
 
   if (!data.success) {
-    throw new Error("ImgBB upload failed: " + (data.error?.message || "Unknown error"));
+    throw new Error("Failed to upload image. Please try a different file or try again later.");
   }
 
   return {
@@ -69,7 +68,7 @@ export async function uploadMultipleImages(
     if (result.status === "fulfilled") {
       successes.push(result.value);
     } else {
-      errors.push(`Failed to upload '${files[index].name}': ${result.reason?.message || "Unknown error"}`);
+      errors.push(`Could not upload '${files[index].name}'. Please try again.`);
     }
   });
 

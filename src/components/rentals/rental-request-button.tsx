@@ -8,6 +8,7 @@ import { useMe } from "@/hooks/api/use-auth";
 import { useTenantRentals } from "@/hooks/api/use-rentals";
 import { Button } from "@/components/ui/button";
 import { RentalRequestModal } from "./rental-request-modal";
+import { RentalRequest } from "@/lib/types";
 
 interface RentalRequestButtonProps {
   propertyId: string;
@@ -24,7 +25,7 @@ export function RentalRequestButton({ propertyId, status }: RentalRequestButtonP
   const { data: rentalsResponse, isLoading: isRentalsLoading } = useTenantRentals({
     enabled: !!isAuthenticated && user?.role === "TENANT",
   });
-  const rentals = (rentalsResponse?.data || []) as Array<any>;
+  const rentals = (rentalsResponse?.data || []) as Array<RentalRequest>;
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect

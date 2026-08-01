@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -11,9 +10,6 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-    console.error("Global Error Caught:", error);
-  }, [error]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center bg-background">

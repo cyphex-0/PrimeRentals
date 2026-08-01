@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getPaymentHistory, getPaymentById, createPaymentIntent, confirmPayment } from "@/lib/api";
 import { ApiError } from "@/lib/types";
 import { toast } from "sonner";
+import { sanitizeErrorMessage } from "@/lib/utils/sanitize-error";
 
 export function usePaymentHistory() {
   return useQuery({
@@ -22,7 +23,7 @@ export function useCreatePaymentIntent() {
   return useMutation({
     mutationFn: createPaymentIntent,
     onError: (error: ApiError) => {
-      toast.error(error.message);
+      toast.error(sanitizeErrorMessage(error));
     },
   });
 }
@@ -38,7 +39,7 @@ export function useConfirmPayment() {
       toast.success("Payment confirmed successfully!");
     },
     onError: (error: ApiError) => {
-      toast.error(error.message);
+      toast.error(sanitizeErrorMessage(error));
     },
   });
 }

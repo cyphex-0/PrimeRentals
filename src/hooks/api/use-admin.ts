@@ -12,6 +12,7 @@ import {
 } from "@/lib/api";
 import { ApiError } from "@/lib/types";
 import { toast } from "sonner";
+import { sanitizeErrorMessage } from "@/lib/utils/sanitize-error";
 
 export function useAllUsers() {
   return useQuery({
@@ -29,7 +30,7 @@ export function useUpdateUserStatus() {
       toast.success("User status updated!");
     },
     onError: (error: ApiError) => {
-      toast.error(error.message);
+      toast.error(sanitizeErrorMessage(error));
     },
   });
 }
@@ -51,7 +52,7 @@ export function useAdminUpdateProperty() {
       toast.success("Property updated successfully!");
     },
     onError: (error: ApiError) => {
-      toast.error(error.message);
+      toast.error(sanitizeErrorMessage(error));
     },
   });
 }
@@ -66,14 +67,7 @@ export function useAdminDeleteProperty() {
       toast.success("Property deleted successfully!");
     },
     onError: (error: ApiError) => {
-      const msg = error.message?.toLowerCase() || "";
-      if (msg.includes("foreign key") || msg.includes("rentalrequest") || msg.includes("referenced from")) {
-        toast.error("Cannot delete this property because it has rental history. The backend does not support deleting properties with associated rental records.");
-      } else if (msg.includes("active or pending")) {
-        toast.error("Cannot delete a property with active or pending rental requests.");
-      } else {
-        toast.error(error.message || "Failed to delete property.");
-      }
+      toast.error(sanitizeErrorMessage(error));
     },
   });
 }
@@ -94,7 +88,7 @@ export function useCreateCategory() {
       toast.success("Category created successfully!");
     },
     onError: (error: ApiError) => {
-      toast.error(error.message);
+      toast.error(sanitizeErrorMessage(error));
     },
   });
 }
@@ -108,7 +102,7 @@ export function useUpdateCategory() {
       toast.success("Category updated successfully!");
     },
     onError: (error: ApiError) => {
-      toast.error(error.message);
+      toast.error(sanitizeErrorMessage(error));
     },
   });
 }
@@ -122,7 +116,7 @@ export function useDeleteCategory() {
       toast.success("Category deleted successfully!");
     },
     onError: (error: ApiError) => {
-      toast.error(error.message);
+      toast.error(sanitizeErrorMessage(error));
     },
   });
 }

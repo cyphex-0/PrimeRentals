@@ -11,6 +11,7 @@ import { updateProfileSchema, UpdateProfileInput } from "@/lib/validations/auth"
 import { uploadImageToImgBB } from "@/lib/utils/upload-image";
 import { Button } from "@/components/ui/button";
 import { User } from "@/lib/types";
+import { sanitizeErrorMessage } from "@/lib/utils/sanitize-error";
 import { Input } from "@/components/ui/input";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -72,8 +73,8 @@ export default function ProfilePage() {
       const result = await uploadImageToImgBB(file);
       setValue("profileImage", result.url, { shouldValidate: true, shouldDirty: true });
       toast.success("Photo uploaded successfully! Remember to click Save Changes below.");
-    } catch (err: any) {
-      const errorText = err.message || "Failed to upload photo.";
+    } catch (err: unknown) {
+      const errorText = sanitizeErrorMessage(err) || "Failed to upload photo.";
       setUploadError(errorText);
       toast.error(errorText);
     } finally {

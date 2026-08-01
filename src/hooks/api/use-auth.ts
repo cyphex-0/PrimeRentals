@@ -3,6 +3,7 @@ import { getMe, updateProfile } from "@/lib/api";
 import { ApiError } from "@/lib/types";
 import { toast } from "sonner";
 import { useAuthStore } from "@/lib/stores/auth-store";
+import { sanitizeErrorMessage } from "@/lib/utils/sanitize-error";
 
 export function useMe() {
   const token = useAuthStore((state) => state.token);
@@ -23,7 +24,7 @@ export function useUpdateProfile() {
       toast.success("Profile updated successfully!");
     },
     onError: (error: ApiError) => {
-      toast.error(error.message);
+      toast.error(sanitizeErrorMessage(error));
     },
   });
 }

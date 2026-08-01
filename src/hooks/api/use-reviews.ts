@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createReview } from "@/lib/api";
 import { ApiError } from "@/lib/types";
 import { toast } from "sonner";
+import { sanitizeErrorMessage } from "@/lib/utils/sanitize-error";
 
 export function useCreateReview() {
   const queryClient = useQueryClient();
@@ -12,7 +13,7 @@ export function useCreateReview() {
       toast.success("Review posted successfully!");
     },
     onError: (error: ApiError) => {
-      toast.error(error.message);
+      toast.error(sanitizeErrorMessage(error));
     },
   });
 }

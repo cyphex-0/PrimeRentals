@@ -12,6 +12,7 @@ import { StarRating } from "@/components/ui/star-rating";
 import { createReviewSchema, CreateReviewInput } from "@/lib/validations/review";
 import { useCreateReview } from "@/hooks/api/use-reviews";
 import { ApiError } from "@/lib/types";
+import { sanitizeErrorMessage } from "@/lib/utils/sanitize-error";
 
 interface LeaveReviewModalProps {
   isOpen: boolean;
@@ -49,8 +50,9 @@ export function LeaveReviewModal({ isOpen, onClose, rentalId, propertyId }: Leav
           setErrorMsg("You must complete your stay before leaving a review.");
           toast.error("You must complete your stay before leaving a review.");
         } else {
-          setErrorMsg(err.message || "Failed to submit review.");
-          toast.error("Failed to submit review.");
+          const sanitized = sanitizeErrorMessage(err);
+          setErrorMsg(sanitized);
+          toast.error(sanitized);
         }
       }
     });
