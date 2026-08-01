@@ -3,10 +3,11 @@ import { getTenantRequests, getRentalRequestById, createRentalRequest } from "@/
 import { ApiError } from "@/lib/types";
 import { toast } from "sonner";
 
-export function useTenantRentals() {
+export function useTenantRentals(options?: { enabled?: boolean }) {
   return useQuery({
     queryKey: ["tenant-rentals"],
     queryFn: getTenantRequests,
+    enabled: options?.enabled ?? true,
   });
 }
 
