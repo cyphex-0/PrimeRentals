@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
 import { RentalRequestButton } from "@/components/rentals/rental-request-button";
 import { PropertyGallery } from "@/components/properties/property-gallery";
+import { RelatedProperties } from "@/components/properties/related-properties";
 
 export async function generateMetadata(
   props: { params: Promise<{ id: string }> }
@@ -136,6 +137,12 @@ export default async function PropertyDetailPage(
           </div>
         </div>
       </div>
+
+      <RelatedProperties
+        categoryId={property.categoryId}
+        currentPropertyId={property.id}
+        categoryName={property.category?.name || "Similar"}
+      />
     </main>
   );
 }
