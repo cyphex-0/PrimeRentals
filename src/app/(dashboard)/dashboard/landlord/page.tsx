@@ -10,6 +10,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { formatDate } from "@/lib/utils/format";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useLandlordStats } from "@/hooks/api/use-stats";
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 export default function LandlordDashboard() {
   const { data: userData } = useMe();
@@ -24,6 +26,17 @@ export default function LandlordDashboard() {
   const availableProperties = properties.filter((p) => p.status === "AVAILABLE").length;
   const pendingRequests = requests.filter((r) => r.status === "PENDING").length;
   const activeRentals = requests.filter((r) => r.status === "ACTIVE").length;
+
+  const { data: statsResponse, isLoading: statsLoading } = useLandlordStats();
+  const stats = statsResponse?.data;
+
+  const requestsStatusData = stats ? [
+    { name: "Pending", value: stats.requestsByStatus.PENDING, color: "#F59E0B" },
+    { name: "Approved", value: stats.requestsByStatus.APPROVED, color: "#3B82F6" },
+    { name: "Rejected", value: stats.requestsByStatus.REJECTED, color: "#EF4444" },
+    { name: "Active", value: stats.requestsByStatus.ACTIVE, color: "#10B981" },
+    { name: "Completed", value: stats.requestsByStatus.COMPLETED, color: "#6B7280" },
+  ].filter(d => d.value > 0) : [];
 
   const recentRequests = [...requests].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 5);
 
@@ -152,6 +165,42 @@ export default function LandlordDashboard() {
                 Manage Properties
               </Link>
             </Button>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardHeader>
+            <CardTitle>Request Status Distribution</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {statsLoading ? (
+              <Skeleton className="h-[300px] w-full" />
+            ) : (
+              <div className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={requestsStatusData}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={100}
+                      label
+                    >
+                      {requestsStatusData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

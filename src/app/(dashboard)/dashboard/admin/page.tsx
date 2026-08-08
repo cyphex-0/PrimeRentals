@@ -1,16 +1,21 @@
 "use client";
 
 import { useAllUsers, useAdminProperties, useAllRentals } from "@/hooks/api/use-admin";
+import { useAdminStats } from "@/hooks/api/use-stats";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Building2, Key, CheckCircle, ArrowRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 export default function AdminDashboard() {
   const { data: usersData, isLoading: usersLoading } = useAllUsers();
   const { data: propertiesData, isLoading: propertiesLoading } = useAdminProperties();
   const { data: rentalsData, isLoading: rentalsLoading } = useAllRentals();
+  const { data: statsResponse, isLoading: statsLoading } = useAdminStats();
+  
+  const stats = statsResponse?.data;
 
   const users = usersData?.data || [];
   const properties = propertiesData?.data || [];
@@ -30,6 +35,20 @@ export default function AdminDashboard() {
 
   const isLoading = usersLoading || propertiesLoading || rentalsLoading;
 
+  const rentalsStatusData = stats ? [
+    { name: "Pending", value: stats.rentalsByStatus.PENDING, color: "#F59E0B" },
+    { name: "Approved", value: stats.rentalsByStatus.APPROVED, color: "#3B82F6" },
+    { name: "Rejected", value: stats.rentalsByStatus.REJECTED, color: "#EF4444" },
+    { name: "Active", value: stats.rentalsByStatus.ACTIVE, color: "#10B981" },
+    { name: "Completed", value: stats.rentalsByStatus.COMPLETED, color: "#6B7280" },
+  ].filter(d => d.value > 0) : [];
+
+  const usersRoleData = stats ? [
+    { name: "Tenants", count: stats.usersByRole.TENANT },
+    { name: "Landlords", count: stats.usersByRole.LANDLORD },
+    { name: "Admins", count: stats.usersByRole.ADMIN },
+  ] : [];
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div>
@@ -47,9 +66,9 @@ export default function AdminDashboard() {
             </div>
           </CardHeader>
           <CardContent>
-            {isLoading ? <Skeleton className="h-8 w-16 mb-1" /> : <div className="text-3xl font-bold mb-1">{totalUsers}</div>}
+            {isLoading || statsLoading ? <Skeleton className="h-8 w-16 mb-1" /> : <div className="text-3xl font-bold mb-1">{stats?.totalUsers || totalUsers}</div>}
             <p className="text-xs text-muted-foreground">
-              {tenantsCount} Tenants, {landlordsCount} Landlords
+              {stats ? `${stats.usersByRole.TENANT} Tenants, ${stats.usersByRole.LANDLORD} Landlords` : `${tenantsCount} Tenants, ${landlordsCount} Landlords`}
             </p>
           </CardContent>
         </Card>
@@ -62,7 +81,7 @@ export default function AdminDashboard() {
             </div>
           </CardHeader>
           <CardContent>
-            {isLoading ? <Skeleton className="h-8 w-16 mb-1" /> : <div className="text-3xl font-bold mb-1">{totalProperties}</div>}
+            {isLoading || statsLoading ? <Skeleton className="h-8 w-16 mb-1" /> : <div className="text-3xl font-bold mb-1">{stats?.totalProperties || totalProperties}</div>}
             <p className="text-xs text-muted-foreground">
               {availableProperties} Available, {rentedProperties} Rented
             </p>
@@ -77,9 +96,9 @@ export default function AdminDashboard() {
             </div>
           </CardHeader>
           <CardContent>
-            {isLoading ? <Skeleton className="h-8 w-16 mb-1" /> : <div className="text-3xl font-bold mb-1">{totalRentals}</div>}
+            {isLoading || statsLoading ? <Skeleton className="h-8 w-16 mb-1" /> : <div className="text-3xl font-bold mb-1">{stats?.totalRentals || totalRentals}</div>}
             <p className="text-xs text-muted-foreground">
-              {pendingRentals} Pending Requests
+              {stats ? `${stats.rentalsByStatus.PENDING} Pending Requests` : `${pendingRentals} Pending Requests`}
             </p>
           </CardContent>
         </Card>
@@ -92,10 +111,67 @@ export default function AdminDashboard() {
             </div>
           </CardHeader>
           <CardContent>
-            {isLoading ? <Skeleton className="h-8 w-16 mb-1" /> : <div className="text-3xl font-bold mb-1">{activeRentals}</div>}
+            {isLoading || statsLoading ? <Skeleton className="h-8 w-16 mb-1" /> : <div className="text-3xl font-bold mb-1">{stats?.rentalsByStatus.ACTIVE || activeRentals}</div>}
             <p className="text-xs text-muted-foreground">
               Currently generating revenue
             </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardHeader>
+            <CardTitle>Rentals by Status</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {statsLoading ? (
+              <Skeleton className="h-[300px] w-full" />
+            ) : (
+              <div className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={rentalsStatusData}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={100}
+                      label
+                    >
+                      {rentalsStatusData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-md transition-shadow">
+          <CardHeader>
+            <CardTitle>Users by Role</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {statsLoading ? (
+              <Skeleton className="h-[300px] w-full" />
+            ) : (
+              <div className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={usersRoleData}>
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="count" fill="#0F766E" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

@@ -6,3 +6,4 @@ export * from "./payments";
 export * from "./reviews";
 export * from "./landlord";
 export * from "./admin";
+export * from "./stats";
