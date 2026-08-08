@@ -42,6 +42,7 @@ export function Navbar() {
           <Link href="/properties" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Properties</Link>
           <Link href="/about" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">About</Link>
           <Link href="/contact" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Contact</Link>
+          <Link href="/faq" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">FAQ</Link>
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
@@ -55,7 +56,11 @@ export function Navbar() {
               </Link>
             </>
           ) : (
-            <DropdownMenu>
+            <>
+              <Link href={`/dashboard/${userRole.toLowerCase()}`} className="text-sm font-medium text-primary hover:text-primary/80 transition-colors mr-2">
+                Dashboard
+              </Link>
+              <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar fallback={initials} src={user?.profileImage || undefined} />
               </DropdownMenuTrigger>
@@ -72,6 +77,7 @@ export function Navbar() {
                 </button>
               </DropdownMenuContent>
             </DropdownMenu>
+            </>
           )}
         </div>
 
@@ -91,6 +97,7 @@ export function Navbar() {
             <Link href="/properties" className="text-base font-medium">Properties</Link>
             <Link href="/about" className="text-base font-medium">About</Link>
             <Link href="/contact" className="text-base font-medium">Contact</Link>
+            <Link href="/faq" className="text-base font-medium">FAQ</Link>
             <div className="h-px bg-border my-2" />
             {!isLoggedIn ? (
               <div className="flex flex-col gap-2">

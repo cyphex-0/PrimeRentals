@@ -21,9 +21,9 @@ export function Footer() {
             <h4 className="font-semibold mb-4">Platform</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link href="/properties" className="hover:text-primary transition-colors">Browse Properties</Link></li>
-              <li><Link href="/landlords" className="hover:text-primary transition-colors">For Landlords</Link></li>
-              <li><Link href="/tenants" className="hover:text-primary transition-colors">For Tenants</Link></li>
-              <li><Link href="/pricing" className="hover:text-primary transition-colors">Pricing</Link></li>
+              <li><Link href="/about" className="hover:text-primary transition-colors">For Landlords</Link></li>
+              <li><Link href="/about" className="hover:text-primary transition-colors">For Tenants</Link></li>
+              <li><Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
             </ul>
           </div>
 
@@ -40,13 +40,13 @@ export function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Connect</h4>
             <div className="flex space-x-4">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href="/" className="text-muted-foreground hover:text-primary transition-colors">
                 <Globe className="h-5 w-5" />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href="mailto:support@rentnest.com" className="text-muted-foreground hover:text-primary transition-colors">
                 <Mail className="h-5 w-5" />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href="tel:+15551234567" className="text-muted-foreground hover:text-primary transition-colors">
                 <Phone className="h-5 w-5" />
               </a>
             </div>
