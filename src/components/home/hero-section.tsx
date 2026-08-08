@@ -20,7 +20,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-background pt-24 pb-32 lg:pt-32 lg:pb-40">
+    <section className="relative overflow-hidden bg-background min-h-[60vh] max-h-[70vh] flex items-center">
       {/* Background gradients & shapes */}
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/20 via-background to-background"></div>
       <div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-primary/10 blur-3xl"></div>

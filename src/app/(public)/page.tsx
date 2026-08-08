@@ -3,6 +3,9 @@ import { HeroSection } from "@/components/home/hero-section";
 import { CategoriesSection } from "@/components/home/categories-section";
 import { FeaturedProperties } from "@/components/home/featured-properties";
 import { HowItWorks } from "@/components/home/how-it-works";
+import { StatsSection } from "@/components/home/stats-section";
+import { TestimonialsSection } from "@/components/home/testimonials-section";
+import { FaqSection } from "@/components/home/faq-section";
 import { CtaSection } from "@/components/home/cta-section";
 
 export const metadata = {
@@ -24,7 +27,10 @@ export default async function HomePage() {
       <HeroSection />
       <CategoriesSection categories={categories} />
       <FeaturedProperties properties={featuredProperties} />
+      <StatsSection />
       <HowItWorks />
+      <TestimonialsSection />
+      <FaqSection />
       <CtaSection />
     </main>
   );
