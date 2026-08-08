@@ -11,7 +11,8 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { registerSchema, RegisterInput } from "@/lib/validations/auth";
-import { registerUser } from "@/lib/api";
+import { registerUser, googleLogin } from "@/lib/api";
+import { useGoogleLogin } from "@react-oauth/google";
 import { useAuthStore } from "@/lib/stores/auth-store";
 import { cn } from "@/lib/utils";
 import { sanitizeErrorMessage } from "@/lib/utils/sanitize-error";
@@ -46,6 +47,28 @@ export default function RegisterPage() {
     }
   };
 
+  const loginWithGoogle = useGoogleLogin({
+    onSuccess: async (credentialResponse) => {
+      try {
+        if (credentialResponse.access_token) {
+          const res = await googleLogin(credentialResponse.access_token);
+          if (res.success && res.data) {
+            setAuth(res.data.token);
+            toast.success("Google registration successful!");
+            
+            const role = res.data.user.role;
+            if (role === "TENANT") router.push("/dashboard/tenant");
+            else if (role === "LANDLORD") router.push("/dashboard/landlord");
+            else router.push("/dashboard/admin");
+          }
+        }
+      } catch (error) {
+        toast.error(sanitizeErrorMessage(error) || "Google authentication failed.");
+      }
+    },
+    onError: () => toast.error("Google login failed"),
+  });
+
   return (
     <div className="space-y-6">
       <div className="space-y-2 text-center lg:text-left">
@@ -67,7 +90,7 @@ export default function RegisterPage() {
           type="button" 
           variant="outline" 
           className="w-full h-11"
-          onClick={() => toast.info("Google authentication coming soon. Please use email login.")}
+          onClick={() => loginWithGoogle()}
         >
           <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
             <path

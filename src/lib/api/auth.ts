@@ -6,3 +6,4 @@ export const loginUser = (data: unknown) => apiPost<LoginResponse>("/auth/login"
 export const getMe = () => apiGet<User>("/auth/me");
 export const updateProfile = (data: unknown) => apiPut<User>("/auth/me", data);
 export const refreshToken = () => apiPost<RefreshTokenResponse>("/auth/refresh-token");
+export const googleLogin = (accessToken: string) => apiPost<LoginResponse>("/auth/google-login", { accessToken });
