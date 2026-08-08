@@ -65,7 +65,7 @@ export function TestimonialsSection() {
               </div>
               <Quote className="h-8 w-8 text-primary/20 mb-4" />
               <p className="text-muted-foreground italic mb-6 flex-grow">
-                "{testimonial.content}"
+                &quot;{testimonial.content}&quot;
               </p>
               <div>
                 <h4 className="font-semibold">{testimonial.name}</h4>
