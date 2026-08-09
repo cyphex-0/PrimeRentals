@@ -16,8 +16,8 @@ const sourceSans = Source_Sans_3({
 });
 
 export const metadata: Metadata = {
-  title: "RentNest - Property Rental Marketplace",
-  description: "Find and rent your perfect property on RentNest.",
+  title: "PrimeRentals - Property Rental Marketplace",
+  description: "Find and rent your perfect property on PrimeRentals.",
 };
 
 export default function RootLayout({

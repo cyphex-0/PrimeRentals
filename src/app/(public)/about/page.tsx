@@ -14,7 +14,7 @@ export default function AboutPage() {
             Redefining the Rental Experience
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed animate-in fade-in slide-in-from-bottom-6 duration-700 delay-300 fill-mode-both">
-            At RentNest, we believe that finding a home should be as comfortable as living in one. 
+            At PrimeRentals, we believe that finding a home should be as comfortable as living in one. 
             We bridge the gap between property owners and tenants with trust, transparency, and technology.
           </p>
         </div>

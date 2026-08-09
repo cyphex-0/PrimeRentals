@@ -1,11 +1,11 @@
-# RentNest API Integration
+# PrimeRentals API Integration
 
-This document maps all the **frontend components and pages** to their respective **backend API routes**, as implemented in the RentNest Frontend.
+This document maps all the **frontend components and pages** to their respective **backend API routes**, as implemented in the PrimeRentals Frontend.
 
 ## Admin Credentials
 To access the admin dashboard, please use the following credentials:
-- **Email:** admin@rentnest.com
-- **Password:** RentNestAdmin2026
+- **Email:** admin@primerentals.com
+- **Password:** PrimeRentalsAdmin2026
 
 ---
 

@@ -6,11 +6,11 @@ import { ChevronDown } from "lucide-react";
 
 const faqs = [
   {
-    question: "How do I list my property on RentNest?",
+    question: "How do I list my property on PrimeRentals?",
     answer: "Simply register as a landlord, navigate to your dashboard, and click 'Add New Property'. Fill in the details, upload photos, and your listing will be live instantly."
   },
   {
-    question: "Is RentNest free to use for tenants?",
+    question: "Is PrimeRentals free to use for tenants?",
     answer: "Yes! Browsing properties and submitting rental requests is completely free for tenants. You only pay when your rental request is approved and you proceed with the payment."
   },
   {
@@ -57,7 +57,7 @@ export function FaqSection() {
             transition={{ delay: 0.1 }}
             className="text-muted-foreground text-lg max-w-2xl mx-auto"
           >
-            Find answers to common questions about using RentNest.
+            Find answers to common questions about using PrimeRentals.
           </motion.p>
         </div>
 

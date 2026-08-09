@@ -3,7 +3,7 @@ import { PropertyList } from "@/components/properties/property-list";
 import { PropertyFilters } from "@/components/properties/property-filters";
 
 export const metadata = {
-  title: "Properties | RentNest",
+  title: "Properties | PrimeRentals",
   description: "Browse available properties",
 };
 

@@ -10,7 +10,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="relative z-10">
           <Link href="/" className="inline-flex items-center gap-2 font-bold text-2xl tracking-tight text-white">
             <Building2 className="h-6 w-6" />
-            RentNest
+            PrimeRentals
           </Link>
           <div className="mt-24 max-w-md">
             <h1 className="text-4xl font-bold leading-tight text-white mb-6">

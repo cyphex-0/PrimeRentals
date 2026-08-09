@@ -33,7 +33,7 @@ export function HowItWorks() {
           transition={{ duration: 0.5 }}
           className="mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-white">How RentNest Works</h2>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-white">How PrimeRentals Works</h2>
           <p className="text-primary-foreground/90 text-lg max-w-2xl mx-auto">
             Your journey to a new home should be as seamless as living in it. We&apos;ve simplified the process into three easy steps.
           </p>

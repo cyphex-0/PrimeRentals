@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="https://i.ibb.co/3sX8N2V/rentnest-logo.png" alt="RentNest Logo" width="120" />
+  <img src="https://i.ibb.co/3sX8N2V/primerentals-logo.png" alt="PrimeRentals Logo" width="120" />
   <br />
-  <h1>RentNest 🏠</h1>
+  <h1>PrimeRentals 🏠</h1>
   <p><strong>A Next-Generation, Role-Based Real Estate & Rental Management Platform</strong></p>
 
   <p>
@@ -18,7 +18,7 @@
 
 ## 📖 Executive Summary
 
-**RentNest** is an enterprise-grade real estate rental application built on the modern **Next.js App Router** framework. Designed with multi-role orchestration at its core, RentNest bridges the gap between property owners, prospective tenants, and platform moderators with a secure, real-time, and friction-free user experience.
+**PrimeRentals** is an enterprise-grade real estate rental application built on the modern **Next.js App Router** framework. Designed with multi-role orchestration at its core, PrimeRentals bridges the gap between property owners, prospective tenants, and platform moderators with a secure, real-time, and friction-free user experience.
 
 The frontend engine combines **React Server Components (RSC)** with advanced asynchronous caching via **TanStack React Query v5**, strictly enforced edge-level routing authentication, end-to-end **Stripe** checkout encryption, and robust client-side schema validation using **Zod**.
 
@@ -71,8 +71,8 @@ Follow these instructions to spin up the full frontend architecture on your loca
 
 ### 1. Clone & Navigate
 ```bash
-git clone https://github.com/cyphex-0/RentNest.git
-cd RentNest
+git clone https://github.com/cyphex-0/PrimeRentals.git
+cd PrimeRentals
 ```
 
 ### 2. Environment Configuration

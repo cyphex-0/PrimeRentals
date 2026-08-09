@@ -22,7 +22,7 @@ export function CtaSection() {
           <div className="relative z-10 max-w-2xl mx-auto">
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 text-foreground">Ready to find your next home?</h2>
             <p className="text-lg text-muted-foreground mb-10">
-              Join our community today. Whether you&apos;re looking for a cozy studio or listing your luxury villa, RentNest connects you instantly.
+              Join our community today. Whether you&apos;re looking for a cozy studio or listing your luxury villa, PrimeRentals connects you instantly.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/auth/register">

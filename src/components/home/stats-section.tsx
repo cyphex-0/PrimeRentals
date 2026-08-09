@@ -64,7 +64,7 @@ export function StatsSection() {
             transition={{ delay: 0.1 }}
             className="text-muted-foreground text-lg max-w-2xl mx-auto"
           >
-            Join thousands of users who trust RentNest for their property needs.
+            Join thousands of users who trust PrimeRentals for their property needs.
           </motion.p>
         </div>
 

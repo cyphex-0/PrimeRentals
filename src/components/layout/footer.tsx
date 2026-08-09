@@ -10,7 +10,7 @@ export function Footer() {
           <div className="flex flex-col space-y-4">
             <Link href="/" className="flex items-center gap-2">
               <Home className="h-6 w-6 text-primary" />
-              <span className="font-heading text-xl font-bold tracking-tight text-primary">RentNest</span>
+              <span className="font-heading text-xl font-bold tracking-tight text-primary">PrimeRentals</span>
             </Link>
             <p className="text-sm text-muted-foreground max-w-xs">
               Your trusted marketplace for modern, professional property rentals.
@@ -43,7 +43,7 @@ export function Footer() {
               <a href="/" className="text-muted-foreground hover:text-primary transition-colors">
                 <Globe className="h-5 w-5" />
               </a>
-              <a href="mailto:support@rentnest.com" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href="mailto:support@primerentals.com" className="text-muted-foreground hover:text-primary transition-colors">
                 <Mail className="h-5 w-5" />
               </a>
               <a href="tel:+15551234567" className="text-muted-foreground hover:text-primary transition-colors">
@@ -54,7 +54,7 @@ export function Footer() {
         </div>
         
         <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} RentNest. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} PrimeRentals. All rights reserved.</p>
         </div>
       </div>
     </footer>

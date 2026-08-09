@@ -53,7 +53,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Headquarters</h3>
-                    <p className="text-muted-foreground">123 RentNest Avenue<br/>Tech District, NY 10001</p>
+                    <p className="text-muted-foreground">123 PrimeRentals Avenue<br/>Tech District, NY 10001</p>
                   </div>
                 </div>
                 
@@ -63,7 +63,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Email Us</h3>
-                    <p className="text-muted-foreground">support@rentnest.com<br/>partnerships@rentnest.com</p>
+                    <p className="text-muted-foreground">support@primerentals.com<br/>partnerships@primerentals.com</p>
                   </div>
                 </div>
                 

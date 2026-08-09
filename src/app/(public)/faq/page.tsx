@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "FAQ | RentNest",
-  description: "Frequently asked questions about RentNest platform and services.",
+  title: "FAQ | PrimeRentals",
+  description: "Frequently asked questions about PrimeRentals platform and services.",
 };
 
 export default function FAQPage() {
@@ -61,7 +61,7 @@ export default function FAQPage() {
             Frequently Asked Questions
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed animate-in fade-in slide-in-from-bottom-6 duration-700 delay-300 fill-mode-both">
-            Find answers to common questions about using RentNest, managing properties, and processing payments.
+            Find answers to common questions about using PrimeRentals, managing properties, and processing payments.
           </p>
         </div>
       </section>

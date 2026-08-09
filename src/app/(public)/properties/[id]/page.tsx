@@ -15,7 +15,7 @@ export async function generateMetadata(
   const params = await props.params;
   const res = await getServerPropertyById(params.id);
   if (!res.data) return { title: "Property Not Found" };
-  return { title: `${res.data.title} | RentNest` };
+  return { title: `${res.data.title} | PrimeRentals` };
 }
 
 export default async function PropertyDetailPage(

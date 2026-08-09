@@ -9,7 +9,7 @@ import { FaqSection } from "@/components/home/faq-section";
 import { CtaSection } from "@/components/home/cta-section";
 
 export const metadata = {
-  title: "RentNest - Find Your Perfect Rental Home",
+  title: "PrimeRentals - Find Your Perfect Rental Home",
   description: "Browse thousands of verified properties. Request to rent in minutes.",
 };
 

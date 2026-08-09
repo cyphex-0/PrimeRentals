@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | RentNest",
-  description: "Learn how RentNest collects, uses, and protects your personal data.",
+  title: "Privacy Policy | PrimeRentals",
+  description: "Learn how PrimeRentals collects, uses, and protects your personal data.",
 };
 
 export default function PrivacyPage() {
@@ -33,7 +33,7 @@ export default function PrivacyPage() {
 
             <h2 className="text-2xl font-bold mt-10 mb-4">2. How We Use Your Information</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              We use the collected information to operate and improve the RentNest platform, process transactions, verify user identities, communicate with you regarding your account or listings, and provide customer support. We also use this data to detect and prevent fraud, abuse, and security incidents.
+              We use the collected information to operate and improve the PrimeRentals platform, process transactions, verify user identities, communicate with you regarding your account or listings, and provide customer support. We also use this data to detect and prevent fraud, abuse, and security incidents.
             </p>
 
             <h2 className="text-2xl font-bold mt-10 mb-4">3. Information Sharing</h2>
@@ -48,7 +48,7 @@ export default function PrivacyPage() {
 
             <h2 className="text-2xl font-bold mt-10 mb-4">5. Cookies & Tracking</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              RentNest uses cookies and similar tracking technologies to track the activity on our platform and hold certain information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent, though some features of the platform may not function properly without them.
+              PrimeRentals uses cookies and similar tracking technologies to track the activity on our platform and hold certain information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent, though some features of the platform may not function properly without them.
             </p>
 
             <h2 className="text-2xl font-bold mt-10 mb-4">6. Your Rights</h2>
@@ -68,7 +68,7 @@ export default function PrivacyPage() {
 
             <h2 className="text-2xl font-bold mt-10 mb-4">9. Contact Us</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact our Data Protection Officer at privacy@rentnest.com.
+              If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact our Data Protection Officer at privacy@primerentals.com.
             </p>
           </div>
         </div>

@@ -8,7 +8,7 @@ const testimonials = [
     id: 1,
     name: "Sarah M.",
     role: "Tenant",
-    content: "RentNest made finding my dream apartment incredibly easy. The whole process from browsing to payment was seamless.",
+    content: "PrimeRentals made finding my dream apartment incredibly easy. The whole process from browsing to payment was seamless.",
   },
   {
     id: 2,
@@ -44,7 +44,7 @@ export function TestimonialsSection() {
             transition={{ delay: 0.1 }}
             className="text-muted-foreground text-lg max-w-2xl mx-auto"
           >
-            Real experiences from tenants and landlords who use RentNest.
+            Real experiences from tenants and landlords who use PrimeRentals.
           </motion.p>
         </div>
 

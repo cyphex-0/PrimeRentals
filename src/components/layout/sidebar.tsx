@@ -87,7 +87,7 @@ export function Sidebar({
         <div className="h-16 flex items-center justify-between px-6 border-b shrink-0">
           <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileOpen?.(false)}>
             <Home className="h-6 w-6 text-primary" />
-            <span className="font-heading text-lg font-bold tracking-tight text-primary">RentNest</span>
+            <span className="font-heading text-lg font-bold tracking-tight text-primary">PrimeRentals</span>
           </Link>
           <button 
             className="md:hidden text-muted-foreground p-2 -mr-2"

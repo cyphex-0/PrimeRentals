@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | RentNest",
-  description: "Terms and conditions for using the RentNest platform.",
+  title: "Terms of Service | PrimeRentals",
+  description: "Terms and conditions for using the PrimeRentals platform.",
 };
 
 export default function TermsPage() {
@@ -18,7 +18,7 @@ export default function TermsPage() {
             Terms of Service
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed animate-in fade-in slide-in-from-bottom-6 duration-700 delay-300 fill-mode-both">
-            Please read these terms carefully before using the RentNest platform to understand your rights and responsibilities.
+            Please read these terms carefully before using the PrimeRentals platform to understand your rights and responsibilities.
           </p>
         </div>
       </section>
@@ -28,7 +28,7 @@ export default function TermsPage() {
           <div className="max-w-4xl mx-auto prose prose-slate dark:prose-invert">
             <h2 className="text-2xl font-bold mt-10 mb-4">1. Acceptance of Terms</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              By accessing or using RentNest (the "Platform"), you agree to be bound by these Terms of Service. If you do not agree to all the terms and conditions, you may not access or use the Platform. These terms apply to all visitors, users, landlords, and tenants who access or use the Service.
+              By accessing or using PrimeRentals (the "Platform"), you agree to be bound by these Terms of Service. If you do not agree to all the terms and conditions, you may not access or use the Platform. These terms apply to all visitors, users, landlords, and tenants who access or use the Service.
             </p>
 
             <h2 className="text-2xl font-bold mt-10 mb-4">2. User Accounts & Registration</h2>
@@ -38,17 +38,17 @@ export default function TermsPage() {
 
             <h2 className="text-2xl font-bold mt-10 mb-4">3. Property Listings</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              Landlords are solely responsible for the accuracy and legality of their property listings. RentNest reserves the right to remove any listing that violates these terms or is deemed inappropriate. Landlords must ensure they have the legal right to rent out the properties they list.
+              Landlords are solely responsible for the accuracy and legality of their property listings. PrimeRentals reserves the right to remove any listing that violates these terms or is deemed inappropriate. Landlords must ensure they have the legal right to rent out the properties they list.
             </p>
 
             <h2 className="text-2xl font-bold mt-10 mb-4">4. Rental Requests & Agreements</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              A rental request submitted by a tenant does not guarantee a lease. The landlord has the right to approve or reject requests. RentNest is not a party to the actual rental agreement between the landlord and tenant, and we assume no liability for any disputes arising from the tenancy.
+              A rental request submitted by a tenant does not guarantee a lease. The landlord has the right to approve or reject requests. PrimeRentals is not a party to the actual rental agreement between the landlord and tenant, and we assume no liability for any disputes arising from the tenancy.
             </p>
 
             <h2 className="text-2xl font-bold mt-10 mb-4">5. Payments & Refunds</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              All payments made through the Platform are processed securely via Stripe. By providing a payment method, you authorize us to charge the applicable fees. Refunds are subject to the specific rental agreement and local laws. RentNest is not responsible for refunding payments once they have been transferred to the landlord.
+              All payments made through the Platform are processed securely via Stripe. By providing a payment method, you authorize us to charge the applicable fees. Refunds are subject to the specific rental agreement and local laws. PrimeRentals is not responsible for refunding payments once they have been transferred to the landlord.
             </p>
 
             <h2 className="text-2xl font-bold mt-10 mb-4">6. User Conduct</h2>
@@ -58,12 +58,12 @@ export default function TermsPage() {
 
             <h2 className="text-2xl font-bold mt-10 mb-4">7. Intellectual Property</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              The Platform and its original content, features, and functionality are owned by RentNest and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws. You may not copy, modify, or distribute any part of the Platform without our explicit consent.
+              The Platform and its original content, features, and functionality are owned by PrimeRentals and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws. You may not copy, modify, or distribute any part of the Platform without our explicit consent.
             </p>
 
             <h2 className="text-2xl font-bold mt-10 mb-4">8. Limitation of Liability</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              RentNest provides the Platform "as is" and without warranty of any kind. We shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your access to or use of the Platform, including but not limited to any disputes between tenants and landlords.
+              PrimeRentals provides the Platform "as is" and without warranty of any kind. We shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your access to or use of the Platform, including but not limited to any disputes between tenants and landlords.
             </p>
 
             <h2 className="text-2xl font-bold mt-10 mb-4">9. Termination</h2>
@@ -73,7 +73,7 @@ export default function TermsPage() {
 
             <h2 className="text-2xl font-bold mt-10 mb-4">10. Contact Information</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              If you have any questions about these Terms, please contact us at legal@rentnest.com or through our contact form.
+              If you have any questions about these Terms, please contact us at legal@primerentals.com or through our contact form.
             </p>
           </div>
         </div>

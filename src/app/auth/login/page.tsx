@@ -171,7 +171,7 @@ export default function LoginPage() {
           variant="outline" 
           size="sm" 
           className="w-full justify-start text-muted-foreground"
-          onClick={() => { setValue("email", "admin@rentnest.com"); setValue("password", "RentNestAdmin2026"); }}
+          onClick={() => { setValue("email", "admin@primerentals.com"); setValue("password", "PrimeRentalsAdmin2026"); }}
         >
           <Shield className="mr-2 h-4 w-4" /> Demo as Admin
         </Button>
@@ -179,7 +179,7 @@ export default function LoginPage() {
           variant="outline" 
           size="sm" 
           className="w-full justify-start text-muted-foreground"
-          onClick={() => { setValue("email", "landlord@rentnest.com"); setValue("password", "password123"); }}
+          onClick={() => { setValue("email", "landlord@primerentals.com"); setValue("password", "password123"); }}
         >
           <Building className="mr-2 h-4 w-4" /> Demo as Landlord
         </Button>
@@ -187,7 +187,7 @@ export default function LoginPage() {
           variant="outline" 
           size="sm" 
           className="w-full justify-start text-muted-foreground"
-          onClick={() => { setValue("email", "tenant@rentnest.com"); setValue("password", "password123"); }}
+          onClick={() => { setValue("email", "tenant@primerentals.com"); setValue("password", "password123"); }}
         >
           <User className="mr-2 h-4 w-4" /> Demo as Tenant
         </Button>
