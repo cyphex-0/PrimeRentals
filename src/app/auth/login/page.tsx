@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, AlertCircle, Eye, EyeOff } from "lucide-react";
+import { Loader2, AlertCircle, Eye, EyeOff, Shield } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -161,6 +161,21 @@ export default function LoginPage() {
         </Button>
       </form>
 
+      <div className="relative my-6">
+        <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border/50" /></div>
+        <div className="relative flex justify-center text-xs uppercase"><span className="bg-background px-2 text-muted-foreground">Quick Demo Access</span></div>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="w-full justify-start text-muted-foreground"
+          onClick={() => { setValue("email", "admin@primerentals.com"); setValue("password", "PrimeRentalsAdmin2026"); }}
+        >
+          <Shield className="mr-2 h-4 w-4" /> Demo as Admin
+        </Button>
+      </div>
 
       <div className="text-center text-sm">
         Don&apos;t have an account?{" "}
